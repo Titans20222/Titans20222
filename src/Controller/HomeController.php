@@ -36,4 +36,23 @@ class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+
+    /**
+     * @Route("/successR", name="successR")
+     */
+    public function successR(): Response
+    {
+        return $this->render('registration/confirmationM.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+    /**
+     * @Route("/loginArtisan", name="loginArtisan")
+     */
+    public function adminTLogin(): Response
+    {
+        return $this->render('admin/login.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
 }
