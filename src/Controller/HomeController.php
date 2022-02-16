@@ -64,4 +64,13 @@ class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+    /**
+     * @Route("/list" ,name="listPrduit")
+     */
+    public function listP(): Response
+    {
+        return $this->render('adminArtisan/index.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
 }

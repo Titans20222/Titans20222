@@ -1,5 +1,8 @@
 {% extends 'base.html.twig' %}
 
+
+
+{% block content  %}
 {% block title %}Evenement index{% endblock %}
 
 {% block body %}
@@ -34,4 +37,5 @@
     </table>
 
     <a href="{{ path('evenement_new') }}">Create new</a>
+{% endblock %}
 {% endblock %}
