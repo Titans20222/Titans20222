@@ -20,12 +20,12 @@ class Categorie
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
      */
-    private $nom;
+    private $nomCategorie;
 
     /**
-     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="relation")
+     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="cotegorie")
      */
     private $produits;
 
@@ -39,14 +39,14 @@ class Categorie
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getNomCategorie(): ?string
     {
-        return $this->nom;
+        return $this->nomCategorie;
     }
 
-    public function setNom(string $nom): self
+    public function setNomCategorie(string $nomCategorie): self
     {
-        $this->nom = $nom;
+        $this->nomCategorie = $nomCategorie;
 
         return $this;
     }
@@ -63,7 +63,7 @@ class Categorie
     {
         if (!$this->produits->contains($produit)) {
             $this->produits[] = $produit;
-            $produit->setRelation($this);
+            $produit->setCotegorie($this);
         }
 
         return $this;
@@ -73,8 +73,8 @@ class Categorie
     {
         if ($this->produits->removeElement($produit)) {
             // set the owning side to null (unless already changed)
-            if ($produit->getRelation() === $this) {
-                $produit->setRelation(null);
+            if ($produit->getCotegorie() === $this) {
+                $produit->setCotegorie(null);
             }
         }
 

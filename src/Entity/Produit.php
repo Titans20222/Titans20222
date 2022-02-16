@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,41 +23,14 @@ class Produit
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $description;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $prix;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=categorie::class, inversedBy="produits")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $relation;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=users::class, inversedBy="produits")
-     */
-    private $createur;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Linecommande::class, mappedBy="produit", orphanRemoval=true)
-     */
-    private $linecommandes;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="produit", orphanRemoval=true)
-     */
-    private $commentaires;
-
-    public function __construct()
-    {
-        $this->linecommandes = new ArrayCollection();
-        $this->commentaires = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -83,7 +54,7 @@ class Produit
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -95,93 +66,9 @@ class Produit
         return $this->prix;
     }
 
-    public function setPrix(float $prix): self
+    public function setPrix(?float $prix): self
     {
         $this->prix = $prix;
-
-        return $this;
-    }
-
-    public function getRelation(): ?categorie
-    {
-        return $this->relation;
-    }
-
-    public function setRelation(?categorie $relation): self
-    {
-        $this->relation = $relation;
-
-        return $this;
-    }
-
-    public function getCreateur(): ?users
-    {
-        return $this->createur;
-    }
-
-    public function setCreateur(?users $createur): self
-    {
-        $this->createur = $createur;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Linecommande[]
-     */
-    public function getLinecommandes(): Collection
-    {
-        return $this->linecommandes;
-    }
-
-    public function addLinecommande(Linecommande $linecommande): self
-    {
-        if (!$this->linecommandes->contains($linecommande)) {
-            $this->linecommandes[] = $linecommande;
-            $linecommande->setProduit($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLinecommande(Linecommande $linecommande): self
-    {
-        if ($this->linecommandes->removeElement($linecommande)) {
-            // set the owning side to null (unless already changed)
-            if ($linecommande->getProduit() === $this) {
-                $linecommande->setProduit(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Commentaire[]
-     */
-    public function getCommentaires(): Collection
-    {
-        return $this->commentaires;
-    }
-
-    public function addCommentaire(Commentaire $commentaire): self
-    {
-        if (!$this->commentaires->contains($commentaire)) {
-            $this->commentaires[] = $commentaire;
-            $commentaire->setProduit($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentaire(Commentaire $commentaire): self
-    {
-        if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getProduit() === $this) {
-                $commentaire->setProduit(null);
-            }
-        }
 
         return $this;
     }
