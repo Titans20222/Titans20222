@@ -79,5 +79,5 @@ class Categorie
         }
 
         return $this;
-    }
+    }        
 }
