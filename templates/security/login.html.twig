@@ -43,12 +43,12 @@
                                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                                 {% endif %}
 
-             {#                  {% if app.user %}
+                         {% if app.user %}
                                     <div class="mb-3">
                                         You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
                                     </div>
                                 {% endif %}
-             #}
+
                                 <div class="form-group first">
                                     <label for="username">Username</label>
 
@@ -96,12 +96,13 @@
             </div>
         </div>
     </div>
-
+    {#
 
     <script src="{{asset('loginForm/js/jquery-3.3.1.min.js')}}"></script>
     <script src="{{asset('loginForm/js/popper.min.js')}}"></script>
     <script src="{{asset('loginForm/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('loginForm/js/main.js')}}"></script>
+    #}
     </body>
     </html>
 {% endblock %}
