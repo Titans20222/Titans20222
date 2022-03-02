@@ -1,0 +1,37 @@
+
+{% extends 'base.html.twig' %}
+{% block content  %}
+    {% block title %}Commande{% endblock %}
+
+    {% block body %}
+        <h1>Commande</h1>
+
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Adresselivraison  </th>
+                <td>{{ commande.adresselivraison  }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ commande.ville  }}</td>
+            </tr>
+            <tr>
+                <th>Quantité</th>
+                <td>{{ commande.numero }}</td>
+            </tr>
+            <tr>
+                <th>Prix_total</th>
+                <td>{{ commande.prixTotal }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('commande_index') }}">back to list</a>
+
+        <a href="{{ path('commande_edit', {'id': commande.id}) }}">edit</a>
+
+        {{ include('commande/_delete_form.html.twig') }}
+    {% endblock %}
+{% endblock %}
+
