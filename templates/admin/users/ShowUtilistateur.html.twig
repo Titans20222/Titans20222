@@ -1,0 +1,56 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Utilisateur{% endblock %}
+
+{% block content %}
+    {% block body  %}
+
+        <div class="container" >
+
+        <h1>Utilisateur</h1>
+
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ user.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ user.prenom }}</td>
+            </tr>
+            <tr>
+                    <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ user.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Role</th>
+                <td>{% for role in user.roles %}
+                        {% if role == "ROLE_CLIENT" %}
+                            client
+                        {% elseif role == "ROLE_ADMIN" %}
+                            administrateur
+                        {% elseif role == "ROLE_ARTISAN" %}
+                            Artisan
+                        {% endif %}
+                    {% endfor %}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('admin_utilisateurs') }}">back to list</a>
+
+        <a href="{{ path('admin_modifier_utilisateur', {'id': user.id}) }}">edit</a>
+
+        </div>
+
+    {% endblock %}
+{% endblock %}
