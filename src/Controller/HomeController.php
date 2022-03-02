@@ -37,9 +37,9 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/admin1", name="admin1")
+     * @Route("/artisan", name="artisan")
      */
-    public function admin1(): Response
+    public function artisan(): Response
     {
         return $this->render('adminT.html.twig', [
             'controller_name' => 'HomeController',
