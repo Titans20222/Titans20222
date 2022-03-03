@@ -51,6 +51,7 @@ class Commande
      */
     private $prix_total;
 
+
     public function getId(): ?int
     {
         return $this->id;
@@ -119,12 +120,12 @@ class Commande
         return $this;
     }
 
-    public function getPrixtotal(): ?string
+    public function getPrix_total(): ?string
     {
         return $this->prix_total;
     }
 
-    public function setPrixtotal(string $prix_total): self
+    public function setPrix_total(string $prix_total): self
     {
         $this->prix_total = $prix_total;
 

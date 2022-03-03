@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% block content  %}
+
+{% block title %}Commande index{% endblock %}
+
+{% block body %}
+    <h1>Commande index</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Adresse livraison</th>
+            <th>Ville</th>
+            <th>Numc</th>
+            <th>DateCommande</th>
+            <th>totalttc</th>
+            <th>actions</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for commande in commandes %}
+            <tr>
+                <td>{{ commande.adresselivraison }}</td>
+                <td>{{ commande.ville }}</td>
+                <td>{{ commande.numc }}</td>
+                <td>{{ commande.datecommande ? commande.datecommande|date('Y-m-d') : '' }}</td>
+                <td>{{ commande.prix_total }}</td>
+                <td>
+                    <a href="{{ path('commande_show', {'id': commande.id}) }}">show</a>
+                    <a href="{{ path('commande_edit', {'id': commande.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('commande_new') }}"class = "btn btn-success" >Create new</a>
+{% endblock %}
+{% endblock %}
