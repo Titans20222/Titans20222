@@ -41,6 +41,22 @@ class Commentaire
      */
     private $author;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="commentaires")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $produits;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Commentaire::class)
+     */
+    private $parentCommentaire;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $active=false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -78,6 +94,42 @@ class Commentaire
     public function setAuthor(?Users $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getProduits(): ?Produit
+    {
+        return $this->produits;
+    }
+
+    public function setProduits(?Produit $produits): self
+    {
+        $this->produits = $produits;
+
+        return $this;
+    }
+
+    public function getParentCommentaire(): ?self
+    {
+        return $this->parentCommentaire;
+    }
+
+    public function setParentCommentaire(?self $parentCommentaire): self
+    {
+        $this->parentCommentaire = $parentCommentaire;
+
+        return $this;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }

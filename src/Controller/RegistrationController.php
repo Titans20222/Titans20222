@@ -55,13 +55,15 @@ class RegistrationController extends AbstractController
             );
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('registerValider');
         }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
+
+
 
     /**
      * @Route("/verify/email", name="app_verify_email")
@@ -83,5 +85,16 @@ class RegistrationController extends AbstractController
         $this->addFlash('success', 'Your email address has been verified.');
 
         return $this->redirectToRoute('app_register');
+    }
+
+    /**
+     * @Route ("/emailCheck",name="registerValider")
+
+     */
+    public function emailCheck(): Response
+    {
+        return $this->render('registration/afterRegister.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
     }
 }

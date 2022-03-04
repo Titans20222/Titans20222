@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
+use App\Entity\Category;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,26 +11,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Sluggable\Util\Urlizer;
+use App\Service\UploaderHelper;
+use Doctrine\Persistence\ManagerRegistry;
+
+
 
 /**
  * @Route("/produit")
  */
 class ProduitController extends AbstractController
 {
-
-
-
-    /**
-     * @Route("/", name="produit_indexArtisan", methods={"GET"})
-     */
-    public function indexProduitArtisan(ProduitRepository $produitRepository): Response
-    {
-        return $this->render('adminArtisan/produit/index.html.twig', [
-            'produits' => $produitRepository->findAll(),
-        ]);
-    }
-
-
     /**
      * @Route("/", name="produit_index", methods={"GET"})
      */
@@ -50,41 +43,27 @@ class ProduitController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           $imageFile=$form['imageFile']->getData();
+           $destination = $this->getParameter('kernel.project_dir').'/public/uploads/peintures';
+           $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+           $newFilename = "file".'-'.uniqid().'.'.$imageFile->guessExtension();
+           $imageFile->move(
+               $destination,
+               $newFilename
+           );
+           $produit->setFile($newFilename);
             $entityManager->persist($produit);
             $entityManager->flush();
 
             return $this->redirectToRoute('produit_index', [], Response::HTTP_SEE_OTHER);
         }
+
 
         return $this->render('produit/new.html.twig', [
             'produit' => $produit,
             'form' => $form->createView(),
         ]);
     }
-
-    /**
-     * @Route("/new", name="produit_newArtisan", methods={"GET", "POST"})
-     */
-    public function newProduitArtisan(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $produit = new Produit();
-        $form = $this->createForm(ProduitType::class, $produit);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($produit);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('produit_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('adminArtisan/produit/new.html.twig', [
-            'produit' => $produit,
-            'form' => $form->createView(),
-        ]);
-    }
-
-
 
     /**
      * @Route("/{id}", name="produit_show", methods={"GET"})
@@ -95,6 +74,22 @@ class ProduitController extends AbstractController
             'produit' => $produit,
         ]);
     }
+
+
+     /**
+     * @Route("showCat/{id}", name="produit_showCat", methods={"GET"})
+     */
+    public function showByCat(ManagerRegistry $doctrine, $id ): Response
+    {
+        $categories = $doctrine->getRepository(Category::class)->findAll();
+        $produits = $doctrine->getRepository(Produit::class)->findBy(['category'=> $id]);
+        return $this->render('boutique/index.html.twig', [
+            'produits' => $produits,
+            'categories' => $categories
+         ] );
+    }
+
+
 
     /**
      * @Route("/{id}/edit", name="produit_edit", methods={"GET", "POST"})
@@ -127,16 +122,5 @@ class ProduitController extends AbstractController
         }
 
         return $this->redirectToRoute('produit_index', [], Response::HTTP_SEE_OTHER);
-    }
-    /**
-     * @Route("/produit/{id}", name="delete")
-     */
-    public function deleteById($id,ProduitRepository $produitRepository): Response
-    {
-        $produit=$produitRepository->find($id);
-        $em=$this->getDoctrine()->getManager();
-        $em->remove($produit);
-        $em->flush();
-        return $this->redirectToRoute('produit_indexArtisan', [], Response::HTTP_SEE_OTHER);
     }
 }
