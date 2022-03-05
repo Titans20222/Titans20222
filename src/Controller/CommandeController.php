@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\LigneDeCommande;
 use App\Entity\Commande;
+use App\Form\LigneDeCommandeType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,8 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Repository\ProduitRepository;
 use App\Repository\LigneDeCommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Dompdf\Dompdf;
-use Dompdf\Options;
+//use Dompdf\Dompdf;
+//use Dompdf\Options;
 
 /**
  * @Route("/commande")
@@ -52,6 +53,91 @@ class CommandeController extends AbstractController
             'commande' => $commande,
             'form' => $form->createView(),
         ]);
+ /*   public function new(Request $request,ProduitRepository $produitRepository): Response
+    {
+        $session = $request->getSession();
+        if (!$session->has('name'))
+        {
+            $this->get('session')->getFlashBag()->add('info', 'Erreur de  Connection veuillez se connecter .... ....');
+            return $this->redirectToRoute('user_login');
+        }
+        else
+        {
+            $name = $session->get('name');
+           // $compteur = $compteurRepository->find(1);
+            //$numc= $compteur->getNumcom();
+            $commande = new Commande();
+            $form = $this->createForm(CommandeType::class, $commande);
+            $form->handleRequest($request);
+            $lignedecommande = new LCommande();
+            $f = $this->createForm(LigneDeCommandeType::class, $lignedecommande);
+            $f->handleRequest($request);
+
+            $prix_total = 0;
+            $montht = 0;
+            $ligne = 0;
+
+            if (!$session->has('commande'))
+            {
+                $session->set('commande',array());
+
+            }
+            $session = $request->getSession();
+            $name = $session->get('name');
+            $choix = "";
+            $Tabcomm = $session->get('commande', []);
+
+            if ($form->isSubmitted() || $f->isSubmitted()) {
+
+                $choix = $request->get('bt');
+                if($choix =="Valider"){
+                    $em = $this->getDoctrine()->getManager();
+                    $lig = sizeof($Tabcomm);
+                    for ($i = 1;$i<=$lig;$i++)
+                    {
+                        $lignedecommande = new LigneDeCommande();
+                        $prod = $produitRepository->findOneBy(array('id'=>$Tabcomm[$i]->getProduit()));
+                        $lignedecommande->setProduit($prod);
+                        $lignedecommande->setLigne($i);
+                       // $lignedecommande->setNumcommande($Numcommande);
+                        $lignedecommande->setPrix($Tabcomm[$i]->getPrix());
+                        $lignedecommande->setQte($Tabcomm[$i]->getQte());
+                        $em->persist($lignedecommande);
+                        $em->flush();
+                        $montht = $Tabcomm[$i]->getPrix()*$Tabcomm[$i]->getQte();
+
+                        $prix_total = $prix_total ;
+                    }
+
+                    //$commande->setNumc($Numc);
+
+
+                    $commande->setPrix_total($prix_total);
+                    $em->persist($commande);
+
+                    //$compteur->setNumcom($numc+1);
+                  //  $em->persist($compteur);
+                    $em->flush();
+                    $session->clear();
+                }
+                else if($choix =="Add"){
+                    $ligne = sizeof($Tabcomm)+1;
+                    $lignedecommande->setNumcommande($Numcommande);
+                    $lignedecommande->setLigne($ligne);
+                    $Tabcomm[$ligne] = $lignedecommande;
+                    $session->set('commande',$Tabcomm);
+                }
+            }
+            return $this->render('commande/new.html.twig', [
+                'commande' => $commande,'lcomm'=>$Tabcomm,
+                'form' => $form->createView(),
+                'lignedecommande' => $lignedecommande,'name'=>$name,
+                'f' => $f->createView(),'numc'=>$Numc,
+                'prix_total'=>$prix_total,'montht'=>$montht,'ligne'=>$ligne,
+
+            ]);
+        }*/
+
     }
 
     /**

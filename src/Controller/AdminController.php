@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Commande;
 use App\Entity\Users;
+use App\Form\CommandeType;
 use App\Form\EditUserType;
+use App\Repository\CommandeRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\UsersRepository;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -72,12 +76,34 @@ class AdminController extends AbstractController
 
 
     /**
-     * @Route("utilisateur/{id}", name="utilisateur_show", methods={"GET"})
+     * @Route("admin/commande", name="admincommande_index", methods={"GET"})
      */
-    public function show(Users $users): Response
+    public function commandeList(UsersRepository $commandes)
     {
-        return $this->render('admin/users/ShowUtilistateur.html.twig', [
-            'user' => $users,
+        return $this->render('admin/commandes/showcommandes.html.twig', [
+            'commandes' => $commandes->findAll(),
         ]);
     }
+
+
+    /**
+     * @Route("admin/{id}/edit", name="admincommande_edit", methods={"GET", "POST"})
+     */
+    public function editcommande(Request $request, Commande $commande, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(CommandeType::class, $commande);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('admincommande_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('admin/commandes/editcommande.html.twig', [
+            'commande' => $commande,
+            'form' => $form->createView(),
+        ]);
+    }
+
 }

@@ -1,0 +1,40 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Commandes{% endblock %}
+
+{% block content %}
+    {% block body  %}
+
+        <div class="container" >
+
+            <h1>Commande</h1>
+
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>Adresselivraison  </th>
+                    <td>{{ commande.adresselivraison  }}</td>
+                </tr>
+                <tr>
+                    <th>Ville</th>
+                    <td>{{ commande.ville  }}</td>
+                </tr>
+                <tr>
+                    <th>Quantité</th>
+                    <td>{{ commande.Numc }}</td>
+                </tr>
+                <tr>
+                    <th>Prix total</th>
+                    <td>{{ commande.prix_total }}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <a href="{{ path('admincommande_index') }}">back to list</a>
+
+            <a href="{{ path('admincommande_edit', {'id': commande.id}) }}">edit</a>
+
+        </div>
+
+    {% endblock %}
+{% endblock %}

@@ -19,7 +19,7 @@ class LigneDeCommande
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=commande::class, inversedBy="ligneDeCommande")
+     * @ORM\ManyToOne(targetEntity=Commande::class, inversedBy="ligneDeCommande")
      */
     private $commande;
 

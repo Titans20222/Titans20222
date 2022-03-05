@@ -24,7 +24,7 @@ class LigneDeCommandeController extends AbstractController
      */
     public function index(LigneDeCommandeRepository $lignedecommandeRepository): Response
     {
-        return $this->render('lignedecommande/index.html.twig', [
+        return $this->render('ligne_de_commande/index.html.twig', [
             'lignedecommandes' => $lignedecommandeRepository->findAll(),
         ]);
     }
@@ -46,7 +46,7 @@ class LigneDeCommandeController extends AbstractController
             return $this->redirectToRoute('lignedecommande_index');
         }
 
-        return $this->render('lignedecommande/new.html.twig', [
+        return $this->render('ligne_de_commande/new.html.twig', [
             'lignedecommande' => $lignedecommande,
             'form' => $form->createView(),
         ]);
@@ -57,7 +57,7 @@ class LigneDeCommandeController extends AbstractController
      */
     public function show(LigneDeCommande $lignedecommande): Response
     {
-        return $this->render('lignedecommande/show.html.twig', [
+        return $this->render('ligne_de_commande/show.html.twig', [
             'lignedecommande' => $lignedecommande,
         ]);
     }
@@ -78,8 +78,8 @@ class LigneDeCommandeController extends AbstractController
             ]);
         }
 
-        return $this->render('lignedecommande/edit.html.twig', [
-            'lcommande' => $lignedecommande,
+        return $this->render('ligne_de_commande/edit.html.twig', [
+            'lignedecommande' => $lignedecommande,
             'form' => $form->createView(),
         ]);
     }
@@ -95,6 +95,6 @@ class LigneDeCommandeController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('lignedecommande_index');
+        return $this->redirectToRoute('ligne_de_commande_index');
     }
 }

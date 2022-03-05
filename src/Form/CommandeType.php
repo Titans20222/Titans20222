@@ -22,9 +22,9 @@ class CommandeType extends AbstractType
             ->add('datecommande',DateType::class,['label' => 'Date Commande:   : ','widget' => 'single_text'])
             ->add('adresselivraison')
             ->add('ville')
-            ->add('prix_total',TextType::class, array(
+   /*         ->add('prix_total',TextType::class, array(
         'label' => 'Total TTC :'))
-            ->add('user',EntityType::class,array('class' => Users::class,'choice_label' => 'id' ))
+            ->add('user',EntityType::class,array('class' => Users::class,'choice_label' => 'id' ))*/
         ;
     }
 

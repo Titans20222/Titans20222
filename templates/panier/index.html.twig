@@ -10,7 +10,6 @@
             <thead>
             <tr>
                 <th>Produit</th>
-                <th>Artisan</th>
                 <th>Prix</th>
                 <th>Quantité</th>
                 <th>Total</th>
@@ -21,7 +20,6 @@
             {% for element in dataPanier %}
                 <tr>
                     <td>{{element.produit.nom}}</td>
-                    <td>{{element.produit.artisan.nom}}</td>
                     <td>{{element.produit.prix}}dt</td>
                     <td>{{element.quantite}}</td>
                     <td>{{element.quantite * element.produit.prix}}€</td>

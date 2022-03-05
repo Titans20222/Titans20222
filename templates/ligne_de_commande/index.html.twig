@@ -8,7 +8,6 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Id</th>
             <th>Numc</th>
             <th>Prix</th>
             <th>Qte</th>
@@ -18,7 +17,6 @@
         <tbody>
         {% for lignedecommande in lignedecommandes %}
             <tr>
-                <td>{{ lignedecommande.id }}</td>
                 <td>{{ lignedecommande.Numcommande }}</td>
                 <td>{{ lignedecommande.prix }}</td>
                 <td>{{ lignedecommande.qte }}</td>

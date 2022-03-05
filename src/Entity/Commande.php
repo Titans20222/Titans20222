@@ -47,7 +47,7 @@ class Commande
 
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable="true")
      */
     private $prix_total;
 

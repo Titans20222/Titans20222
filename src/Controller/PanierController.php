@@ -16,7 +16,7 @@ class PanierController extends AbstractController
 {
 
     /**
-     * @Route("/", name="panier", methods={"GET"})
+     * @Route("/", name="panier_index", methods={"GET"})
      */
     public function index(SessionInterface $session, ProduitRepository $produitRepository): Response
     {
