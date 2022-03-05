@@ -1,6 +1,27 @@
+{#
+{% block title %}Hello PubliciteController!{% endblock %}
+
+{% block body %} #}
+    <!--style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+ {# {% extends 'base.html.twig' %} #}
+
+    <div class="example-wrapper">
+        <h1>Hello {{ controller_name }}! ✅</h1>
+
+        This friendly message is coming from:
+        <ul>
+            <li>Your controller at <code><a href="{{ 'C:/Users/lenovo/Documents/GitHub/src/Controller/PubliciteController.php'|file_link(0) }}">src/Controller/PubliciteController.php</a></code></li>
+            <li>Your template at <code><a href="{{ 'C:/Users/lenovo/Documents/GitHub/templates/publicite/index.html.twig'|file_link(0) }}">templates/publicite/index.html.twig</a></code></li>
+        </ul>
+    </div-->
+
+
+{#  {% endblock %} #}
 
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <title>Sanaaty</title>
@@ -65,15 +86,17 @@
         </div>
     </div>
 </nav>
-<div style="margin-top: 150px">
-    <h1>Edit Formation</h1>
 
-    {{ include('formation/_form.html.twig', {'button_label': 'Update'}) }}
+<!-- END nav -->
+<body>
 
-    <a href="{{ path('formation_index') }}">back to list</a>
+<form class="form-floating">
+    <input type="email" class="form-control is-invalid" id="floatingInputInvalid" placeholder="name@example.com" value="test@example.com">
+    <label for="floatingInputInvalid">Invalid input</label>
+</form>
 
-    {{ include('formation/_delete_form.html.twig') }}
 
+</body>
 <footer class="ftco-footer ftco-section img">
     <div class="overlay"></div>
     <div class="container">
@@ -174,3 +197,8 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 <script src="{{asset('js/google-map.js')}}"></script>
 <script src="{{asset('js/main.js')}}"></script>
+
+</body>
+</html>
+
+
