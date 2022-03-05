@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+
+{% block content %}
+    {% block body %}
+        <style>
+            .rowtable{
+                font-weight: bold;
+            }
+            .titleTable{
+                color:white;
+                font-weight: bold;
+            }
+            .tb{
+                width: 500px;
+            }
+            td{
+                height:100px
+            }
+        </style>
+
+        <div class="container">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <h2>Produit {{ produit.id }}</h2>
+
+            <table class="tb">
+                <tbody>
+                <tr>
+                    <td class="titleTable"></td>
+                    <td><img class="img-responsive" src="{{ asset('uploads/peintures/') ~ produit.file}}" width="200" height="200"></td>
+                    <br>
+                    <br>
+                    <br>
+                </tr>
+                <tr>
+                    <td class="titleTable">Nom</td>
+                    <td class="rowtable">{{ produit.name }}</td>
+                    <br>
+                    <br>
+                </tr>
+
+                <tr>
+                    <td class="titleTable">Description</td>
+                    <td class="rowtable">{{ produit.description }}</td>
+                    <br>
+                    <br>
+                </tr>
+
+                <tr>
+                    <td class="titleTable">Prix</td>
+                    <td class="rowtable">{{ produit.price }}</td>
+                    <br>
+                    <br>
+                </tr>
+
+
+                </tbody>
+
+            </table>
+            </div>
+
+
+    {% endblock %}
+{% endblock %}

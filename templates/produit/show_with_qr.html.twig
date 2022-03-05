@@ -1,0 +1,33 @@
+{% extends 'adminT.html.twig' %}
+
+{% block title %}Produit{% endblock %}
+{% block content %}
+    {% block body %}
+        <h1>Produit</h1>
+
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ produit.id }}</td>
+            </tr>
+
+            <tr>
+                <th>File</th>
+                <td><img class="img-responsive" src="{{ asset('uploads/peintures/') ~ produit.file}}" width="200" height="200"></td>
+            </tr>
+            <tr>
+                <th>QR Code</th>
+                <td><img src="{{ qrCode }}" alt="qr-code" width="200" height="200"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('produit_index') }}">back to list</a>
+
+        <a href="{{ path('produit_edit', {'id': produit.id}) }}">edit</a>
+
+        {{ include('produit/_delete_form.html.twig') }}
+
+    {% endblock %}
+{% endblock %}
