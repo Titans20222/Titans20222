@@ -7,6 +7,10 @@ use App\Repository\CommentaireRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+
+use Symfony\Component\Validator\Constraints as Assert;
+
+
 /**
 
  * @ORM\Entity(repositoryClass=CommentaireRepository::class)
@@ -21,79 +25,73 @@ class Commentaire
      */
     private $id;
 
+
+    /**
+     * @ORM\Column(type="string", length=50)
+*/
+    private $nom;
+
+    /**
+     * @ORM\Column(type="string", length=150)
+     */
+    private $email;
+
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("post:read")
+     * @Assert\NotBlank(message="Vous devez donner une description !")
      */
-    private $texte;
+    private $description;
 
     /**
-     * @ORM\Column(type="datetime")
-     * @Groups("post:read")
-     */
-    private $date;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="commentaires")
-     * @ORM\JoinColumn(nullable=false)
-     *  @Groups("post:read")
-
-     */
-    private $author;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="commentaires")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="commentaire")
      */
     private $produits;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Commentaire::class)
-     */
-    private $parentCommentaire;
+
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="smallint")
+     * @Assert\NotBlank(message="Vous devez choisir au moin 1 star !")
      */
-    private $active=false;
+    private $rating;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTexte(): ?string
+    public function getNom(): ?string
     {
-        return $this->texte;
+        return $this->nom;
     }
 
-    public function setTexte(string $texte): self
+    public function setNom(string $nom): self
     {
-        $this->texte = $texte;
+        $this->nom = $nom;
 
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getEmail(): ?string
     {
-        return $this->date;
+        return $this->email;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setEmail(string $email): self
     {
-        $this->date = $date;
+        $this->email = $email;
 
         return $this;
     }
 
-    public function getAuthor(): ?Users
+    public function getDescription(): ?string
     {
-        return $this->author;
+        return $this->description;
     }
 
-    public function setAuthor(?Users $author): self
+    public function setDescription(string $description): self
     {
-        $this->author = $author;
+        $this->description = $description;
 
         return $this;
     }
@@ -110,26 +108,16 @@ class Commentaire
         return $this;
     }
 
-    public function getParentCommentaire(): ?self
+
+
+    public function getRating(): ?int
     {
-        return $this->parentCommentaire;
+        return $this->rating;
     }
 
-    public function setParentCommentaire(?self $parentCommentaire): self
+    public function setRating(int $rating): self
     {
-        $this->parentCommentaire = $parentCommentaire;
-
-        return $this;
-    }
-
-    public function getActive(): ?bool
-    {
-        return $this->active;
-    }
-
-    public function setActive(bool $active): self
-    {
-        $this->active = $active;
+        $this->rating = $rating;
 
         return $this;
     }

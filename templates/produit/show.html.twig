@@ -35,5 +35,177 @@
     <a href="{{ path('produit_edit', {'id': produit.id}) }}">edit</a>
 
     {{ include('produit/_delete_form.html.twig') }}
+
+
+
+    <div class="product-description-review">
+        <!-- Product Description Tab Menu -->
+        <ul class="nav nav-tabs desc-review-tab-menu" id="desc-review-tab" role="tablist">
+            <li>
+                <a class="active" id="desc-tab" data-toggle="tab" href="#descriptionContent" role="tab">Avis</a>
+            </li>
+        </ul>
+
+        <!-- Product Description Tab Content -->
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="descriptionContent">
+                <div class="description-content">
+
+                </div>
+            </div>
+
+            <div class="product-rating-wrap">
+                <div class="average-rating">
+                    <h4> {% if avis.count()>0 %}
+                        {% set rating = 0 %}
+                        {% for rati in avis %}
+                            {% set rating = rating + rati.rating %}
+                        {% endfor %}
+                        {% set rating = rating / avis|length %}
+                        {{ rating }}
+                    {% else %}
+                        0
+                        {% endif %}<span>(Overall)</span></h4>
+                    <span>Based on {{ avis.count()}} Comments</span>
+                </div>
+
+                <div class="display-ratings">
+                    {% for av in avis %}
+
+                        <div class="rating-item">
+                            <div class="rating-author-pic">
+                                <img src="{{ asset("front/assets/img/unknown.png") }}" alt="author" />
+                            </div>
+
+
+                            <div class="rating-author-txt">
+                                <div class="rating-star">
+                                    {% set rating = av.rating %}
+                                    {% for i in 1..5 %}
+                                        {% if rating > 0 %}
+                                            <span><i class="ion-android-star"></i></span>
+                                        {% else %}
+                                            <span><i class="ion-android-star-outline"></i></span>
+                                        {% endif %}
+                                        {% set rating = rating - 1 %}
+                                    {% endfor %}
+                                </div>
+
+                                <div class="rating-meta">
+                                    <h3>{{ av.nom }}</h3>
+                                    <span class="time">-  {{ av.email }}</span>
+                                </div>
+
+                                <p>{{av.description}}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    {{ form_start(form, { 'attr':{'novalidate': 'novalidate'}} ) }}
+                    {% form_theme form 'bootstrap_4_layout.html.twig' %}
+                    <div class="rating-form-wrapper">
+                        <h3>Donner votre avis?</h3>
+                        <form action="{{ path("produit_show", {'id':produit.id })}}"  method="POST">
+                            <div class="rating-form row">
+                                {% for message in app.flashes('success') %}
+                                    <div class="alert alert-success">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                                <div class="col-md-12">
+                                    <div class="form-input-item mt-30 mt-md-0">
+                                        <div class="form-error" style="color: Red;">
+
+                                            {{ form_errors(form.rating) }}
+
+                                        </div>
+                                    </div>
+                                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+                                    <div class="star-rating"><s><s><s><s><s></s></s></s></s></s></div>
+                                    <div class="show-result">No stars selected yet.</div>
+                                    <script>$(function() {
+                                            $("div.star-rating > s").on("click", function(e) {
+
+                                                // remove all active classes first, needed if user clicks multiple times
+                                                $(this).closest('div').find('.active').removeClass('active');
+
+                                                $(e.target).parentsUntil("div").addClass('active'); // all elements up from the clicked one excluding self
+                                                $(e.target).addClass('active');  // the element user has clicked on
+
+
+                                                var numStars = $(e.target).parentsUntil("div").length+1;
+                                                $('.show-result').text(numStars + (numStars == 1 ? " star" : " stars!"));
+                                                document.getElementById("commentaire_rating").value = numStars;
+                                            });
+                                        });</script>
+                                    <style>
+                                        .star-rating s:hover,
+                                        .star-rating s.active {
+                                            color: #dc3545;
+                                        }
+                                        .star-rating-rtl s:hover,
+                                        .star-rating-rtl s.active {
+                                            color: #dc3545;
+                                        }
+
+                                        .star-rating s {
+                                            color: #dc3545;
+                                            font-size: 50px;
+                                            cursor: default;
+                                            text-decoration: none;
+                                            line-height: 50px;
+                                        }
+                                        .star-rating {
+                                            padding: 2px;
+                                        }
+                                        .star-rating-rtl {
+                                            background: #555;
+                                            display: inline-block;
+                                            border: 2px solid #444;
+                                        }
+                                        .star-rating-rtl s {
+                                            color: yellow;
+                                        }
+                                        .star-rating s:hover:before,
+                                        .star-rating s.rated:before,
+                                        .star-rating s.active:before {
+                                            content: "\2605";
+                                        }
+                                        .star-rating s:before {
+                                            content: "\2606";
+                                        }
+                                        .star-rating-rtl s:hover:after,
+                                        .star-rating-rtl s.rated:after,
+                                        .star-rating-rtl s.active:after {
+                                            content: "\2605";
+                                        }
+                                    </style>
+                                    {{ form_widget(form.rating) }}
+                                    {{ form_widget(form) }}
+
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-input-item mt-30 mb-40">
+                                        {{ form_widget(form.description,{'id':'your-review'}) }}
+                                        <div class="form-error" style="color: Red;">
+
+                                            {{ form_errors(form.description) }}
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-22">
+                                    <button class="btn btn-brand">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 {% endblock %}
 {% endblock %}

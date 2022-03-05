@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Commentaire;
 use App\Entity\Produit;
 use App\Entity\Category;
+use App\Form\CommentaireType;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -123,4 +125,37 @@ class ProduitController extends AbstractController
 
         return $this->redirectToRoute('produit_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    /**
+     * @Route("/produit_show/{id}",name="produit_show")
+     */
+    public function singleProductA(Request $request, int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $produit = $entityManager->getRepository(Produit::class)->find($id);
+        $avis = new Commentaire();
+        $avis->setProduits($produit);
+        $form = $this->createForm(CommentaireType::class, $avis);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $avis->setEmail($this->getUser()->getEmail());
+            $avis->setNom($this->getUser()->getNom());
+            $entityManager->persist($avis);
+            $entityManager->flush();
+            $this->addFlash('success', 'Avis ajouté avec succés');
+            return $this->redirectToRoute('produit_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
+        }
+        return $this->render("produit/show.html.twig", [
+            "produit" => $produit,
+            "categorie" => $produit->getCategory()->getLabel(),
+            'form' => $form->createView(),
+            "avis" => $produit->getCommentaire(),
+        ]);
+    }
+
+
+
+
+
 }

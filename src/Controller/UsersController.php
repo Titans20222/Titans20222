@@ -117,5 +117,17 @@ class UsersController extends AbstractController
 
     }
 
+    
+    /**
+     * @Route("/pass", name="pass")
+     */
+    public function adminTLogin(): Response
+    {
+        return $this->render('security/reset_password.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+
+
 
 }
