@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -33,6 +35,22 @@ class Users implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Evenement::class, mappedBy="idcreateur")
+     */
+    private $evenements;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="idcreateur")
+     */
+    private $formations;
+
+    public function __construct()
+    {
+        $this->evenements = new ArrayCollection();
+        $this->formations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -114,4 +132,12 @@ class Users implements UserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    
+   
+
+    
+    
+
+   
 }

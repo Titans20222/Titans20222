@@ -24,18 +24,32 @@
                 <td>{{ evenement.nomEvenement }}</td>
                 <td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
                 <td>
+
                     <a href="{{ path('evenement_show', {'id': evenement.id}) }}">show</a>
                     <a href="{{ path('evenement_edit', {'id': evenement.id}) }}">edit</a>
+                <a href="{{ path('reservation_new', {'id': evenement.id}) }}">reserver</a>
                 </td>
             </tr>
+          
         {% else %}
             <tr>
                 <td colspan="4">no records found</td>
             </tr>
+        
         {% endfor %}
+         <tr>
+            <td><a href="{{ path('evenement_new') }}">Create new</a> 
+  
+          <td> </td>
+          <td>{{ knp_pagination_render(evenements) }}</td>
+            
+            </tr>
         </tbody>
+         
+
     </table>
 
-    <a href="{{ path('evenement_new') }}">Create new</a>
+  
+ 
 {% endblock %}
 {% endblock %}

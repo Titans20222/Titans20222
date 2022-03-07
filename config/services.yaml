@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
 
+    image_directory: '%kernel.project_dir%/public/upload/images'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -28,3 +29,10 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+  # twilio.client:
+   #    class: Twilio\Rest\Client
+    #   arguments: ['AC4e747cdc9de3b0741739beebb334962c', '2f4079cf1db9100cdf150fb951d02c5e']
+  
+  #  Ajoute un alias pour le service twilio.client
+   #Twilio\Rest\Client: '@twilio.client'

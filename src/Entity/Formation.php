@@ -27,6 +27,12 @@ class Formation
      */
     private $objectif_global;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="formations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $idcreateur;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +58,18 @@ class Formation
     public function setObjectifGlobal(?string $objectif_global): self
     {
         $this->objectif_global = $objectif_global;
+
+        return $this;
+    }
+
+    public function getIdcreateur(): ?Users
+    {
+        return $this->idcreateur;
+    }
+
+    public function setIdcreateur(?Users $idcreateur): self
+    {
+        $this->idcreateur = $idcreateur;
 
         return $this;
     }
