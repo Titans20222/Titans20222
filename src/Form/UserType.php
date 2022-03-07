@@ -17,6 +17,7 @@ class UserType extends AbstractType
             ->add('pwd')
             ->add('login')
             ->add('role')
+
         ;
     }
 

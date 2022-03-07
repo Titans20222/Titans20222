@@ -53,6 +53,9 @@ class Users implements UserInterface
     private $password;
 
 
+    protected $captchaCode;
+
+
     
   /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -139,7 +142,15 @@ class Users implements UserInterface
         return $this;
     }
 
+    public function getCaptchaCode()
+    {
+        return $this->captchaCode;
+    }
 
+    public function setCaptchaCode($captchaCode)
+    {
+        $this->captchaCode = $captchaCode;
+    }
     /**
      * A visual identifier that represents this user.
      *

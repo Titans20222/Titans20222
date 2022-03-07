@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
+use Captcha\Bundle\CaptchaBundle\Validator\Constraints\ValidCaptcha;
 
 class RegistrationFormType extends AbstractType
 {
@@ -52,7 +54,17 @@ class RegistrationFormType extends AbstractType
             ])
 
             ->add('roles', ChoiceType::class, array('label' => 'Type de compte ', 'choices' => array('Admin' => 'ROLE_ADMIN','Artisan' => 'ROLE_ARTISAN','client' => 'ROLE_CLIENT' ), 'required' => true, 'multiple' => true,))
-            ;
+            ->add('captchaCode', CaptchaType::class, array(
+                'captchaConfig' => 'ExampleCaptchaUserRegistration',
+                'constraints' => [
+                    new ValidCaptcha([
+                        'message' => 'Invalid captcha, please try again',
+                    ]),
+                ],
+            ))
+
+            // ... ///
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

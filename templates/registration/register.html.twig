@@ -135,7 +135,7 @@
                         <div class="value">
                             <div class="">
                                 <div class="rs-select2 js-select-simple select--no-search">
-                                    {{ form_widget(registrationForm.roles, {'attr': {'class': ''}}) }}
+                                    {{ form_widget(registrationForm.roles, {'attr': {'class': 'input--style-5'}}) }}
                                     {#        <select name="subject">
 
                                  <option disabled="disabled" selected="selected">Choose option</option>
@@ -146,9 +146,22 @@
                                     </select>
                                     #}
                                     <div class="select-dropdown"></div>
+
                                 </div>
                             </div>
                         </div>
+                        <div class="form-row" >
+                            <div class="name"></div>
+                            <div class="value">
+                                <div class="">
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                        {{ form_row(registrationForm.captchaCode, {'attr': {'class': 'input--style-5'}}) }}
+                                        <div class="select-dropdown"></div>
+
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
                     </div>
                     {#     <div class="form-row p-t-20">
                         <label class="label label--block">Are you an existing customer?</label>
@@ -185,7 +198,13 @@
 <script src="{{asset('UserRegister/vendor/datepicker/daterangepicker.js')}}"></script>
 
 <!-- Main JS-->
-<script src="{{asset('UserRegister/js/global.js')}}"></script>
+<script src="{{asset('UserRegister/js/global.js')}}">
+    $(function(){
+        $("a[title ~= 'BotDetect']").removeAttr("style");
+        $("a[title ~= 'BotDetect']").removeAttr("href");
+        $("a[title ~= 'BotDetect']").css('visibility', 'hidden');
+    });
+</script>
 
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 
