@@ -30,7 +30,7 @@ class FormationController extends AbstractController
      * @Route("/new", name="formation_new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    {   echo "testtest";
         $formation = new Formation();
         $form = $this->createForm(FormationType::class, $formation);
         $form->handleRequest($request);
@@ -39,7 +39,7 @@ class FormationController extends AbstractController
             $entityManager->persist($formation);
             $entityManager->flush();
 
-            return $this->redirectToRoute('formation_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('formation_indexformation_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('formation/new.html.twig', [

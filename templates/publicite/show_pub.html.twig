@@ -1,0 +1,32 @@
+
+
+{% block title %}Publicité{% endblock %}
+
+{% block body %}
+
+    <h1>Publicité</h1>
+
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ publicite.id }}</td>
+        </tr>
+        <tr>
+            <th>NomPublicite</th>
+            <td>{{ publicite.title }}</td>
+        </tr>
+        <tr>
+            <th>Image</th>
+            <td>{{ publicite.image }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('publicite') }}">back to list</a>
+
+    <a href="{{ path('publicite_edit', {'id': publicite.id}) }}">edit</a>
+
+    {{ include('publicite/_delete_form_pub.html.twig') }}
+{% endblock %}

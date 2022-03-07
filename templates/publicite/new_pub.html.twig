@@ -1,25 +1,4 @@
-{#
-{% block title %}Hello PubliciteController!{% endblock %}
 
-{% block body %} #}
-    <!--style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    </style>
- {# {% extends 'base.html.twig' %} #}
-
-    <div class="example-wrapper">
-        <h1>Hello ! ✅</h1>
-
-        This friendly message is coming from:
-        <ul>
-            <li>Your controller at <code><a href="{{ 'C:/Users/lenovo/Documents/GitHub/src/Controller/PubliciteController.php'|file_link(0) }}">src/Controller/PubliciteController.php</a></code></li>
-            <li>Your template at <code><a href="{{ 'C:/Users/lenovo/Documents/GitHub/templates/publicite/index.html.twig'|file_link(0) }}">templates/publicite/index.html.twig</a></code></li>
-        </ul>
-    </div-->
-
-
-{#  {% endblock %} #}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -87,46 +66,17 @@
     </div>
 </nav>
 
-<!-- END nav -->
-<body>
-
-<!--form class="form-floating">
-    <input type="email" class="form-control is-invalid" id="floatingInputInvalid" placeholder="name@example.com" value="test@example.com">
-    <label for="floatingInputInvalid">Invalid input</label>
-</form-->
 <div style="margin-top: 150px">
-    <div style="margin-top: 150px">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>NomPublicité</th>
-                <th>Objectif_global</th>
-                <th>actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for publicite in publicites %}
-                <tr>
-                    <td>{{ publicite.id }}</td>
-                    <td>{{ publicite.title }}</td>
-                    <td>{{ publicite.image }}</td>
-                    <td>
-                        <a href="{{ path('publicite_show', {'id': publicite.id}) }}">show</a>
-                        <a href="{{ path('publicite_edit', {'id': publicite.id}) }}">edit</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4">no records found</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+    <h1>Create new Publicité</h1>
 
-        <a href="{{ path('publicite_new') }}">Create new</a>
+    {{ include('publicite/_form_pub.html.twig') }}
 
-</body>
+    <a href="{{ path('publicite') }}">back to list</a>
+
+</div>
+
+
+
 <footer class="ftco-footer ftco-section img">
     <div class="overlay"></div>
     <div class="container">
@@ -230,5 +180,3 @@
 
 </body>
 </html>
-
-
