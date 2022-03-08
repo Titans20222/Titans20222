@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Data\SearchData;
 use App\Entity\Users;
 use App\Form\EditUserType;
+use App\Form\SearchForm;
 use App\Repository\ProduitRepository;
 use App\Repository\UsersRepository;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,15 +30,15 @@ class AdminController extends AbstractController
         ]);
     }
 
-    /**
+    /*
      * @Route("admin/utilisateurs", name="admin_utilisateurs")
-     */
+     *
     public function usersList(UsersRepository $users)
     {
         return $this->render('admin/users/users.html.twig', [
             'users' => $users->findAll(),
         ]);
-    }
+    }*/
 
     /**
      * @Route("admin/utilisateurs/modifier/{id}", name="admin_modifier_utilisateur")
@@ -80,4 +83,67 @@ class AdminController extends AbstractController
             'user' => $users,
         ]);
     }
+    /**
+     * @Route("/inv", name="user")
+     */
+    public function userAction(UsersRepository $userRepository,Request $request)
+    {
+        $data = new SearchData();
+        $form = $this->createForm(SearchForm::class, $data, [
+            'method' => 'POST'
+        ]);
+        $form->handleRequest($request);
+        if ($request->isXmlHttpRequest()) {
+            $users = $userRepository->findSearch($data);
+            foreach ($users as $item) {
+                $arrayCollection[] = array(
+                    'id' => $item->getId(),
+                    'nom' => $item->getNom(),
+                    'prenom' => $item->getPrenom(),
+                    'adresse' => $item->getAdresse(),
+
+                    'email' => $item->getEmail(),
+                    'roles' => $item->getRoles(),
+                );
+            }
+            return new JsonResponse($arrayCollection);
+        }
+    }
+    /**
+     *
+     * @Route("admin/utilisateurs", name="admin_utilisateurs")
+     */
+    public function userscherche(UsersRepository $usersRepository, Request $request): Response
+    {
+        $data = new SearchData();
+        $form = $this->createForm(SearchForm::class,$data, [
+            'method' => 'POST'
+        ]);
+        $form->handleRequest($request);
+        $users=$usersRepository->findSearch($data);
+        return $this->render('admin/users/users.html.twig', [
+            'users' => $users,
+            'form' => $form->createView(),
+        ]);
+    }
+    /**
+     *
+     * @Route("tri", name="tri")
+     */
+    public function userstri(UsersRepository $usersRepository, Request $request): Response
+    {
+        $data = new SearchData();
+        $form = $this->createForm(SearchForm::class,$data, [
+            'method' => 'POST'
+        ]);
+        $form->handleRequest($request);
+        $users=$usersRepository->findSearch($data);
+        $users = $usersRepository->findByResultam();
+
+        return $this->render('admin/users/users.html.twig', [
+            'users' => $users,
+            'form' => $form->createView(),
+        ]);
+    }
+
 }

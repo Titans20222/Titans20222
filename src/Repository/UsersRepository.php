@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Users;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -65,4 +66,36 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
         ;
     }
     */
+    /**
+     * recupere les annonces en lien avec recherche
+     * @return Users[]
+     */
+    public function findSearch(SearchData $search):array
+    {
+        $query= $this
+            ->createQueryBuilder('x');
+
+
+        if (!empty($search->y))
+        {
+            $query=$query
+                ->andWhere('x.email LIKE :y OR x.nom LIKE :y')
+                ->setParameter('y',"{$search->y}%");
+        }
+
+        return $query->getQuery()->getResult();
+    }
+    public function findByResultam()
+    {
+
+        $entityManager =$this ->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT e
+            FROM  App\Entity\Users e
+            order by e.nom desc');
+
+        // returns an array of Product objects
+        return $query->getResult();
+
+    }
 }

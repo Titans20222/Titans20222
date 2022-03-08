@@ -179,14 +179,22 @@
             font-size: 95%;
         }
     </style>
-    <script>
-        $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
+
     </head>
     <body>
-    <div class="container-xl">
+    {% block form %}
+    <form class="d-none d-sm-inline-block" method="post" action="{{ path('admin_utilisateurs') }}">
+        {% endblock %}
+        {% block chercher %}
+        {{ form_start(form) }}
+        {{ form_widget(form.y,{ 'attr': {'class': 'form-control bg-transparent border-0'} }) }}
+        {% endblock %}
+        <div class="container-xl">
+            <div class="btn-toolbar" role="toolbar" aria-label="Programmatic control">
+                <div class="btn-group btn-group-sm" aria-label="Set Select2 option">
+                    <a href="{{ path('tri') }}"> <input class="js-programmatic-set-val btn btn-outline-primary mr-1 mb-1" type="button" value="Tri par nom"></a>
+                </div>
+            </div>
         <div class="table-responsive">
             <div class="table-wrapper">
                 <div class="table-title">
@@ -219,7 +227,7 @@
 
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="rec">
                     {% for user in users %}
                         <tr>
 
@@ -260,7 +268,52 @@
             </div>
         </div>
     </body>
+    <script>
+        function dfay(fn, ms) {
+            let timer = 0
+            return function(...args) {
+                clearTimeout(timer)
+                timer = setTimeout(fn.bind(this, ...args), ms || 0)
+            }
+        }
+        $('#y').keyup(dfay(function(e){
+            var serie=$('#y').val();
+            var DATA =  {'y' : serie};
+            console.log(DATA);
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "{{ path('user')}}",
+                data:DATA,
+                success: function (data) {
+                    $("#rec").replaceWith("<tbody id='rec'>")
+                    console.log(data);
+                    $.each(data,function(k,f) {
+                        console.log(f);
 
+                        var test="{{path('admin_modifier_utilisateur', {'id':'ReplacewithcorrectValue' })}}'>"
+                        var modif = test.replace("ReplacewithcorrectValue", f.id)
+                        var test="{{path('admin_supprimer_utilisateur', {'id':'ReplacewithcorrectValue' })}}'>"
+                        var supp = test.replace("ReplacewithcorrectValue", f.id)
+
+                        $('#rec').append(
+                            "<tr>"+"<td class='py-1'>"+f.id+"</td>"+
+                            "<td>"+f.nom+"</td>"+"<td>"+f.prenom+"</td>"+
+                            "<td>"+f.email+"</td>"+"<td>"+f.roles+"</td>"+
+                            "<td>"+"<a href='"+modif+"Modifier"+"<i class='mdi mdi-pencil'>"+"</i>"+"</a>"+"</td>"+
+                        "<td>"+"<a href='"+supp+"Supprimer"'+"</a>"+"</td>"
+
+
+                    )  );
+                    });
+                },
+                error:function ()
+                {
+                    $("#rec").replaceWith("<tbody id='rec'>")
+                }
+            });
+        }, 500));
+    </script>
 
 {% endblock %}
 {% endblock %}

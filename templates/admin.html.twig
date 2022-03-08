@@ -209,10 +209,13 @@
             <a class="sidebar-toggle">
                 <i class="hamburger align-self-center"></i>
             </a>
-
+{% block form %}
             <form class="d-none d-sm-inline-block">
+                {% endblock %}
                 <div class="input-group input-group-navbar">
+                    {% block chercher %}
                     <input type="text" class="form-control" placeholder="Search projects…" aria-label="Search">
+                    {% endblock %}
                     <button class="btn" type="button">
                         <i class="align-middle" data-feather="search"></i>
                     </button>

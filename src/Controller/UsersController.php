@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 use ApiPlatform\Core\JsonApi\Serializer\ObjectNormalizer;
+use App\Data\SearchData;
 use App\Entity\Commentaire;
 use App\Entity\Users;
+use App\Form\SearchForm;
+
+use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
