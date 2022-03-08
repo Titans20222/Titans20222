@@ -1529,11 +1529,11 @@ S2.define('select2/selection/single',[
     });
 
     this.$selection.on('focus', function (evt) {
-      // Users focuses on the container
+      // User focuses on the container
     });
 
     this.$selection.on('blur', function (evt) {
-      // Users exits the container
+      // User exits the container
     });
 
     container.on('focus', function (evt) {

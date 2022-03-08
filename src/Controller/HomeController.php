@@ -37,9 +37,9 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/artisan", name="artisan")
+     * @Route("/admin1", name="admin1")
      */
-    public function artisan(): Response
+    public function admin1(): Response
     {
         return $this->render('adminT.html.twig', [
             'controller_name' => 'HomeController',
@@ -51,21 +51,26 @@ class HomeController extends AbstractController
      */
     public function successR(): Response
     {
-        return $this->render('registration/afterRegister.html.twig', [
+        return $this->render('registration/confirmationM.html.twig', [
             'controller_name' => 'HomeController',
         ]);
     }
-
-
-
     /**
      * @Route("/loginArtisan", name="loginArtisan")
      */
     public function adminTLogin(): Response
     {
-        return $this->render('registration/loginAdmin.html.twig', [
+        return $this->render('admin/login.html.twig', [
             'controller_name' => 'HomeController',
         ]);
     }
-
+    /**
+     * @Route("/list" ,name="listPrduit")
+     */
+    public function listP(): Response
+    {
+        return $this->render('adminArtisan/index.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
 }

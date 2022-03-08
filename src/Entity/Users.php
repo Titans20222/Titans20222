@@ -8,6 +8,7 @@ use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Self_;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -21,6 +22,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Users implements UserInterface
 {
+
+    const ROLE_ADMIN='ROLE_ADMIN',ROLE_ARTISAN='ROLE_ARTISAN';
+
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -133,6 +138,8 @@ class Users implements UserInterface
 
         return $this;
     }
+
+
     /**
      * A visual identifier that represents this user.
      *
@@ -196,7 +203,14 @@ class Users implements UserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-
+    public  function isAdmin():bool
+    {
+        return in_array(self::ROLE_ADMIN,$this->getRoles());
+    }
+    public  function isArtisan():bool
+    {
+        return in_array(self::ROLE_ARTISAN,$this->getRoles());
+    }
 
   /**
    * @return Collection|Commentaire[]
