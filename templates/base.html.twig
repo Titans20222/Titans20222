@@ -62,6 +62,18 @@
 	        </ul>
 	      </div>
 		  </div>
+		{% block form %}
+		<form class="d-none d-sm-inline-block">
+			{% endblock %}
+			<div class="input-group input-group-navbar">
+				{% block chercher %}
+					<input type="text" class="form-control" placeholder="Search reclamation" aria-label="Search">
+				{% endblock %}
+				<button class="btn" type="button">
+					<i class="align-middle" data-feather="search"></i>
+				</button>
+			</div>
+		</form>
 	  </nav>
 
     <!-- END nav -->

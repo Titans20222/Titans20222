@@ -8,6 +8,7 @@
     <br>
     <br> <br>
     <br>
+
    <center> {% for message in app.flashes('success') %}
         <div class="alert-success">
             {{ message }}
@@ -17,6 +18,8 @@
 
     <table class="table">
         <thead>
+
+
             <tr>
                 <!--  <th>Id</th>   -->
                 <th>Titre</th>
@@ -27,7 +30,7 @@
 
             </tr>
         </thead>
-        <tbody>
+        <tbody id="rec">
         {% for reclamation in reclamations %}
             <tr>
                 <!-- <td>{{ reclamation.id }}</td>  -->
@@ -50,12 +53,72 @@
     </table>
 
 {% endblock %}
-    <nav aria-label="Page navigation example">
-        <ul class="pagination pagination-template d-flex justify-content-center">
 
-            {{ knp_pagination_render(reclamations) }}
 
-        </ul>
-    </nav>
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-template d-flex justify-content-center">
+
+        {{ knp_pagination_render(reclamations) }}
+
+    </ul>
+</nav>
+
+
+    {% block form %}
+<form class="d-none d-sm-inline-block" method="post" action="{{ path('reclamation_index') }}">
+    {% endblock %}
+    {% block chercher %}
+        {{ form_start(form) }}
+        {{ form_widget(form.y,{ 'attr': {'class': 'form-control bg-transparent border-0'} }) }}
+    {% endblock %}
+
+    <script>
+        function dfay(fn, ms) {
+            let timer = 0
+            return function(...args) {
+                clearTimeout(timer)
+                timer = setTimeout(fn.bind(this, ...args), ms || 0)
+            }
+        }
+        $('#y').keyup(dfay(function(e){
+            var serie=$('#y').val();
+            var DATA =  {'y' : serie};
+            console.log(DATA);
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "{{ path('reclamation_index')}}",
+                data:DATA,
+                success: function (data) {
+                    $("#rec").replaceWith("<tbody id='rec'>")
+                    console.log(data);
+                    $.each(data,function(k,f) {
+                        console.log(f);
+
+                        var test="{{path('reclamation_edit', {'id':'ReplacewithcorrectValue' })}}'>"
+                        var modif = test.replace("ReplacewithcorrectValue", f.id)
+                        var test="{{path('reclamation_delete', {'id':'ReplacewithcorrectValue' })}}'>"
+                        var supp = test.replace("ReplacewithcorrectValue", f.id)
+
+                        $('#rec').append(
+                            "<tr>"+
+                            "<td>"+f.titre+"</td>"+"<td>"+f.description+"</td>"+
+                            "<td>"+f.date+"</td>"+"<td>"+f.type+"</td>"+
+                            "<td>"+"<a href='"+modif+"Modifier"+"<i class='mdi mdi-pencil'>"+"</i>"+"</a>"+"</td>"+
+                            "<td>"+"<a href='"+supp+"Supprimer"+"</a>"+"</td>"
+
+
+                      );
+                    });
+                },
+                error:function ()
+                {
+                    $("#rec").replaceWith("<tbody id='rec'>")
+                }
+            });
+        }, 500));
+    </script>
+
+
 {% endblock %}
 

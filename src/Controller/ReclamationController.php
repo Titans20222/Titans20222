@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use App\Data\SearchDataRec;
 use App\Entity\Reclamation;
 use App\Form\ReclamationType;
+use App\Form\SearchFormRec;
 use App\Repository\ReclamationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,9 +25,9 @@ class ReclamationController extends AbstractController
 
 
 
-    /**
+    /*
      * @Route("/", name="reclamation_index")
-     */
+
     public function index(Request $request,ReclamationRepository $reclamationRepository,PaginatorInterface $paginator)
     {
         $repo=$this->getDoctrine()->getRepository(Reclamation::class);
@@ -36,7 +39,7 @@ class ReclamationController extends AbstractController
         return $this->render('reclamation/index.html.twig',[
             'reclamations'=>$reclamation
         ]);
-    }
+    }*/
 
 
     /**
@@ -138,4 +141,59 @@ class ReclamationController extends AbstractController
 
         $mailer->send($message);
     }
+
+
+    /**
+     * @Route("/", name="reclamation_index")
+     */
+    public function reclamationAction(ReclamationRepository $reclamationRepository,Request $request)
+    {
+        $data = new SearchDataRec();
+        $form = $this->createForm(SearchFormRec::class, $data, [
+            'method' => 'POST'
+        ]);
+        $form->handleRequest($request);
+        if ($request->isXmlHttpRequest()) {
+            $reclamation = $reclamationRepository->findSearch($data);
+            foreach ($reclamation as $item) {
+                $arrayCollection[] = array(
+                    'id' => $item->getId(),
+                    'titre' => $item->getTitre(),
+                    'description' => $item->getDescription(),
+                    'date' => $item->getDate(),
+
+                    'type' => $item->getType(),
+                );
+            }
+            return new JsonResponse($arrayCollection);
+        }
+    }
+    /**
+     *
+     * @Route("/", name="reclamation_index")
+     */
+    public function reclamationcherche(ReclamationRepository $reclamationRepository, Request $request,PaginatorInterface $paginator): Response
+    {
+        $data = new SearchDataRec();
+        $repo=$this->getDoctrine()->getRepository(Reclamation::class);
+
+        $form = $this->createForm(SearchFormRec::class,$data, [
+            'method' => 'POST'
+        ]);
+        $form->handleRequest($request);
+        $reclamation=$reclamationRepository->findSearch($data);
+             $reclamation= $paginator->paginate(
+                 $reclamation=$reclamationRepository->findAll(), // Requête contenant les données à paginer (ici nos articles)kkkk
+                 $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                 4 // Nombre de résultats par page
+             );
+        return $this->render('reclamation/index.html.twig', [
+            'reclamations' => $reclamation,
+            'form' => $form->createView(),
+        ]);
+
+
+
+    }
+
 }

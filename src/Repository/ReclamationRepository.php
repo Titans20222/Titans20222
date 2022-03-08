@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Reclamation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Data\SearchDataRec;
 
 /**
  * @method Reclamation|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +48,24 @@ class ReclamationRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * recupere les annonces en lien avec recherche
+     * @return Reclamation[]
+     */
+    public function findSearch(SearchDataRec $search):array
+    {
+        $query= $this
+            ->createQueryBuilder('x');
+
+
+        if (!empty($search->y))
+        {
+            $query=$query
+                ->andWhere('x.type LIKE :y ')
+                ->setParameter('y',"{$search->y}%");
+        }
+
+        return $query->getQuery()->getResult();
+    }
 }
