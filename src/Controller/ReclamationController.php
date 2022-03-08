@@ -29,7 +29,7 @@ class ReclamationController extends AbstractController
     {
         $repo=$this->getDoctrine()->getRepository(Reclamation::class);
         $reclamation= $paginator->paginate(
-            $reclamation=$reclamationRepository->findAll(), // Requête contenant les données à paginer (ici nos articles)
+            $reclamation=$reclamationRepository->findAll(), // Requête contenant les données à paginer (ici nos articles)kkkk
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
             4 // Nombre de résultats par page
         );
