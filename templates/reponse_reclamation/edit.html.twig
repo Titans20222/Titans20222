@@ -1,0 +1,16 @@
+{% extends 'adminT.html.twig' %}
+
+{% block content %}
+
+{% block title %}Edit Reponse Reclamation{% endblock %}
+
+{% block body %}
+    <h1>Edit Reponse Reclamation</h1>
+
+    {{ include('reponse_reclamation/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('reponse_reclamation_index') }}"><button>back to list</button></a>
+
+    {{ include('reponse_reclamation/_delete_form.html.twig') }}
+{% endblock %}
+{% endblock %}

@@ -78,44 +78,34 @@
                     <span class="nav-link-text ms-1">Evenements</span>
                 </a>
             </li>
+
             <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#ecommerceExamples" class="nav-link text-white active" aria-controls="ecommerceExamples" role="button" aria-expanded="true">
                     <i class="material-icons-round ">shopping_basket</i>
-                    <span class="nav-link-text ms-2 ps-1">Ecommerce</span>
+                    <span class="nav-link-text ms-2 ps-1">Reclamations</span>
                 </a>
                 <div class="collapse show" id="ecommerceExamples" style="">
                     <ul class="nav ">
                         <li class="nav-item ">
                             <a class="nav-link text-white active collapsed" data-bs-toggle="collapse" aria-expanded="false" href="#productsExample">
-                                <span class="sidenav-mini-icon"> P </span>
-                                <span class="sidenav-normal  ms-2  ps-1"> Products <b class="caret"></b></span>
+                                <span class="sidenav-mini-icon">  </span>
+                                <span class="sidenav-normal  ms-2  ps-1"> Tretement <b class="caret"></b></span>
                             </a>
                             <div class="collapse" id="productsExample" style="">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link text-white " href="#">
-                                            <span class="sidenav-mini-icon"> N </span>
-                                            <span class="sidenav-normal  ms-2  ps-1"> New Product </span>
+                                        <a class="nav-link text-white " href="{{ path('reponse_reclamation_index1') }}">
+                                            <span class="sidenav-mini-icon"> </span>
+                                            <span class="sidenav-normal  ms-2  ps-1"> Toute les reclamations </span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-white " href="#">
-                                            <span class="sidenav-mini-icon"> E </span>
-                                            <span class="sidenav-normal  ms-2  ps-1"> Edit Product </span>
+                                        <a class="nav-link text-white " href="{{ path('reponse_reclamation_index') }}">
+                                            <span class="sidenav-mini-icon">  </span>
+                                            <span class="sidenav-normal  ms-2  ps-1"> Toute les reponses </span>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-white " href="#">
-                                            <span class="sidenav-mini-icon"> P </span>
-                                            <span class="sidenav-normal  ms-2  ps-1"> Product Page </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-white active" href="{{path('produit_index')}}">
-                                            <span class="sidenav-mini-icon"> P </span>
-                                            <span class="sidenav-normal  ms-2  ps-1"> Products List </span>
-                                        </a>
-                                    </li>
+
                                 </ul>
                             </div>
                         </li>

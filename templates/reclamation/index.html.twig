@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+{% block title %}Reclamation index{% endblock %}
+
+{% block body %}
+    <br>
+    <br> <br>
+    <br>
+   <center> {% for message in app.flashes('success') %}
+        <div class="alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}</center>
+    <center><h1>Les Reclamations</h1></center>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <!--  <th>Id</th>   -->
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th><a href="{{ path('reclamation_new') }}"><button>Create new</button></a></th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for reclamation in reclamations %}
+            <tr>
+                <!-- <td>{{ reclamation.id }}</td>  -->
+                <td>{{ reclamation.titre }}</td>
+                <td>{{ reclamation.description }}</td>
+                <td>{{ reclamation.date }}</td>
+                <td>{{ reclamation.type }}</td>
+                <td>
+                    <a href="{{ path('reclamation_show', {'id': reclamation.id}) }}"><button>show</button></a>
+                    <a href="{{ path('reclamation_edit', {'id': reclamation.id}) }}"><button>edit</button></a>
+                    {{ include('reclamation/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-template d-flex justify-content-center">
+
+            {{ knp_pagination_render(reclamations) }}
+
+        </ul>
+    </nav>
+{% endblock %}
+
