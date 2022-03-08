@@ -24,12 +24,13 @@
         </tbody>
     </table>
 
-    <a href="{{ path('publicite') }}">back to list</a>
+    <button class="btn btn-outline-dark"><a href="{{ path('publicite') }}">back to list</a></button>
 
-    <a href="{{ path('publicite_edit', {'id': publicite.id}) }}">edit</a>
 
-    {{ include('publicite/_delete_form_pub.html.twig') }}
-{% endblock %}
+<button class="btn btn-outline-dark"><a href="{{ path('publicite_edit', {'id': publicite.id}) }}">edit</a></button>
+
+   {{ include('publicite/_delete_form_pub.html.twig') }}
+    {% endblock %}
 <footer class="ftco-footer ftco-section img">
     <div class="overlay"></div>
     <div class="container">
