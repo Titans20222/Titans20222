@@ -112,8 +112,8 @@
                     <td>{{ publicite.title }}</td>
                     <td>{{ publicite.image }}</td>
                     <td>
-                        <a href="{{ path('publicite_show', {'id': publicite.id}) }}">show</a>
-                        <a href="{{ path('publicite_edit', {'id': publicite.id}) }}">edit</a>
+                      <button class="btn btn-outline-dark" >  <a href="{{ path('publicite_show', {'id': publicite.id}) }}">show</a> </button>
+                        <button class="btn btn-outline-dark" >    <a href="{{ path('publicite_edit', {'id': publicite.id}) }}">edit</a> </button>
                     </td>
                 </tr>
             {% else %}

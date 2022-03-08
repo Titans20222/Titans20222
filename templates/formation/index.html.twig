@@ -84,8 +84,8 @@
                 <td>{{ formation.nomFormation }}</td>
                 <td>{{ formation.objectifGlobal }}</td>
                 <td>
-                    <a href="{{ path('formation_show', {'id': formation.id}) }}">show</a>
-                    <a href="{{ path('formation_edit', {'id': formation.id}) }}">edit</a>
+                    <button class="btn btn-outline-dark" > <a href="{{ path('formation_show', {'id': formation.id}) }}">show</a> </button>
+                    <button class="btn btn-outline-dark" >   <a href="{{ path('formation_edit', {'id': formation.id}) }}">edit</a> </button>
                 </td>
             </tr>
         {% else %}
