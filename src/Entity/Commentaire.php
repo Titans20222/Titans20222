@@ -54,7 +54,10 @@ class Commentaire
      * @Assert\NotBlank(message="Vous devez choisir au moin 1 star !")
      */
     private $rating;
-
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $created_at;
     public function getId(): ?int
     {
         return $this->id;
@@ -122,7 +125,17 @@ class Commentaire
         return $this;
     }
 
- 
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $created_at): self
+    {
+        $this->created_at = new \DateTime("now");
+
+        return $this;
+    }
    
 
 }

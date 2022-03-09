@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=ProduitRepository::class)
@@ -35,7 +35,8 @@ class Produit
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+    //  * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer")
      * @Assert\NotEqualTo(
      * value=0,
      * message = "le prix de l'article ne doit pas être égale à 0"
@@ -72,6 +73,17 @@ class Produit
      * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="produits",orphanRemoval=true)
      */
     private $commentaire;
+    /**
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="create")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="update")
+     */
+    private $updatedAt;
 
 
 
@@ -92,12 +104,12 @@ class Produit
         return $this;
     }
 
-    public function getPrice(): ?string
+    public function getPrice(): ?int
     {
         return $this->price;
     }
 
-    public function setPrice(string $price): self
+    public function setPrice(int $price): self
     {
         $this->price = $price;
 
@@ -189,6 +201,16 @@ class Produit
 
         return $this;
     }
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
 
+
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
 
 }

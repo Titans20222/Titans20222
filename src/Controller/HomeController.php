@@ -37,7 +37,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/artisan", name="artisan")
+     * @Route("home/artisan", name="artisan")
      */
     public function artisan(): Response
     {

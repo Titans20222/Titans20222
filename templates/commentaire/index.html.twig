@@ -10,20 +10,20 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Texte</th>
-                <th>Date</th>
-                 <th>author</th>
+                <th>nom de l'utilisateur</th>
+                <th>email de l'utilisateur</th>
+                <th>description</th>
+
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for commentaire in commentaires %}
             <tr>
-                <td>{{ commentaire.id }}</td>
-                <td>{{ commentaire.texte }}</td>
-               <td>{{ commentaire.date ? commentaire.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ commentaire.author.nom }}</td>
+                <td>{{ commentaire.nom }}</td>
+                <td>{{ commentaire.email }}</td>
+
+                <td>{{ commentaire.description}}</td>
                 <td>
                     <a href="{{ path('commentaire_show', {'id': commentaire.id}) }}">show</a>
                     <a href="{{ path('commentaire_edit', {'id': commentaire.id}) }}">edit</a>

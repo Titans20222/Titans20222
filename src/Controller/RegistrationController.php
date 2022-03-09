@@ -93,7 +93,6 @@ class RegistrationController extends AbstractController
      */
     public function emailCheck(): Response
     {
-        
         return $this->render('registration/afterRegister.html.twig', [
             'controller_name' => 'HomeController',
         ]);
