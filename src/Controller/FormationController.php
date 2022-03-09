@@ -26,8 +26,21 @@ class FormationController extends AbstractController
         return $this->render('formation/index.html.twig', [
             'formations' => $formationRepository->findAll(),
         ]);
-    }
 
+
+    }
+    /**
+     * @Route("/sorted", name="formation_sorted", methods={"GET"})
+     */
+    public function sort(FormationRepository $formationRepository): Response
+    {
+        $formations= $this->getDoctrine()->getRepository(Formation::class)->findAll();
+        usort($formations, function($a, $b)
+        {
+            return strcmp($a->getNomFormation(), $b->getNomFormation());
+        });        return $this->render('formation/index.html.twig', [
+            'formations' => $formations,
+        ]);}
 
 
 
