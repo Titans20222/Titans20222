@@ -1,0 +1,76 @@
+{% block title %} Liste des Produits {% endblock %}
+
+{% block body %}
+<style type="text/css">
+        {
+            font-family: Candara, Arial, sans-serif;
+        }
+         h1{
+            font-family: Candara, Arial, sans-serif;
+            color:blue;
+            position: initial;
+       
+        tfoot tr td{
+            font-weight: bold;
+            font-size: x-small;
+        }
+        .gray {
+            background-color: lightgreen;
+        }
+    </style>
+    <style>
+        table, td, th {
+            border: 1px solid;
+            background-color: #d1b771;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+    </style>
+<section id="user" class="user">
+    <br>
+    <br>
+    <br>
+    <div class="content-wrapper">
+    <h1>Produits</h1>
+   
+    <table class="table">
+        <thead>
+            <tr>
+                
+                <th>category</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>         
+                <th>picture</th>
+    
+            </tr>
+        </thead>
+        <tbody>
+        {% for produit in produits %}
+            <tr>
+               
+                <td>{{ produit.category.label}}</td>
+                <td>{{ produit.name }}</td>
+                <td>{{ produit.price }}</td>
+                <td>{{ produit.description }}</td>
+
+                <td class="table-light"><img src="{{ ('uploads/peintures/' ~ produit.file ) }}" alt="" style="max-height: 150px; width: 120px;" ></td>
+               
+                
+                <td>
+                   
+                </td>
+            </tr>
+       
+           
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+</section><!-- End Contact Section -->
+{% endblock %}

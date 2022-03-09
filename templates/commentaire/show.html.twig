@@ -9,17 +9,18 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ commentaire.id }}</td>
+                <th>nom de l'utilisateur</th>
+                <td>{{ commentaire.nom }}</td>
+            </tr>
+            <tr>
+                <th>email de l'utilisateur</th>
+                <td>{{ commentaire.email }}</td>
             </tr>
             <tr>
                 <th>Texte</th>
-                <td>{{ commentaire.texte }}</td>
+                <td>{{ commentaire.description }}</td>
             </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ commentaire.date ? commentaire.date|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
+
         </tbody>
     </table>
 

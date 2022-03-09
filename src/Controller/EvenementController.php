@@ -12,16 +12,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/evenement")
+ * @Route("evennement/")
  */
 class EvenementController extends AbstractController
 {
     /**
-     * @Route("/", name="evenement_index", methods={"GET"})
+     * @Route("show/", name="evenement_index", methods={"GET"})
      */
     public function index(EvenementRepository $evenementRepository): Response
     {
-        return $this->render('evenement/index.html.twig', [
+        return $this->render('evennement/index.html.twig', [
             'evenements' => $evenementRepository->findAll(),
         ]);
     }

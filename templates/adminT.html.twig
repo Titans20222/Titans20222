@@ -91,6 +91,54 @@
                     </div>
                     <span class="nav-link-text ms-1">Evenements</span>
                 </a>
+                <div class="collapse show" id="ecommerceExamples" style="">
+                    <ul class="nav ">
+                        <li class="nav-item ">
+                            <a class="nav-link text-white active collapsed" data-bs-toggle="collapse" aria-expanded="false" href="#productsExample">
+                                <span class="sidenav-mini-icon"> P </span>
+                                <span class="sidenav-normal  ms-2  ps-1"> Products & categories <b class="caret"></b></span>
+                            </a>
+                            <div class="collapse" id="productsExample" style="">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-white " href="{{path('category_new')}}">
+                                            <span class="sidenav-mini-icon"> N </span>
+                                            <span class="sidenav-normal  ms-2  ps-1"> New category </span>
+                                        </a>
+                                        </a>
+                                        <div class="collapse" id="productsExample" style="">
+                                            <ul class="nav nav-sm flex-column">
+                                                <li class="nav-item">
+                                                    <a class="nav-link text-white " href="{{path('produit_new')}}">
+                                                        <span class="sidenav-mini-icon"> N </span>
+                                                        <span class="sidenav-normal  ms-2  ps-1"> New Product </span>
+                                                    </a>
+                                                </li>
+                                                {# <li class="nav-item">
+                                        <a class="nav-link text-white " href="{{path('produit_edit')}}">
+                                            <span class="sidenav-mini-icon"> E </span>
+                                            <span class="sidenav-normal  ms-2  ps-1"> Edit Product </span>
+                                        </a>
+                                    </li> #}
+
+                                                <li class="nav-item">
+                                                    <a class="nav-link text-white " href="{{path('category_index')}}">
+                                                        <span class="sidenav-mini-icon"> P </span>
+                                                        <span class="sidenav-normal  ms-2  ps-1"> Category list </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link text-white active" href="{{path('produit_index')}}">
+                                                        <span class="sidenav-mini-icon"> P </span>
+                                                        <span class="sidenav-normal  ms-2  ps-1"> Product List </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                </div>
             </li>
             <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#ecommerceExamples" class="nav-link text-white active" aria-controls="ecommerceExamples" role="button" aria-expanded="true">
@@ -1132,6 +1180,16 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="{{asset('adminTe/assets/js/material-dashboard.min.js?v=3.0.0')}}"></script>
+<script>
+    $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 </body>
 
 </html>

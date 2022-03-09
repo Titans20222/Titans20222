@@ -80,6 +80,10 @@ class Users implements UserInterface
      * @Groups("post:read")
      */
     private $commentaires;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVerified = false;
 
     public function __construct()
     {
@@ -252,11 +256,22 @@ class Users implements UserInterface
 
       return $this;
   }
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
 
     public function __toString()
     {
         // TODO: Implement __toString() method.
-        return $this->getNom();
+    return    $this->getNom();
     }
 
 

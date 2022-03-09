@@ -13,12 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-
+/**
+ * @Route("commentaire/")
+ */
 class CommentaireController extends AbstractController
 {
 
     /**
-     * @Route("/Allcommentaires", name="Allcommentaires")
+     * @Route("Allcommentaires/", name="Allcommentaires")
      */
     public function Allcommentaires(NormalizerInterface $normalizer)
     {
@@ -30,7 +32,7 @@ class CommentaireController extends AbstractController
 
 
     /**
-     * @Route("/commentaire", name="commentaire_index", methods={"GET"})
+     * @Route("show/", name="commentaire_index", methods={"GET"})
      */
     public function index(CommentaireRepository $commentaireRepository): Response
     {

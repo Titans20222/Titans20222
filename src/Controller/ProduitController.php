@@ -5,9 +5,12 @@ namespace App\Controller;
 use App\Entity\Commentaire;
 use App\Entity\Produit;
 use App\Entity\Category;
-use App\Form\CommentaireType;
+
 use App\Form\ProduitType;
+use App\Form\CommentaireType;
+
 use App\Repository\ProduitRepository;
+use App\Services\QrCodeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +20,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Sluggable\Util\Urlizer;
 use App\Service\UploaderHelper;
 use Doctrine\Persistence\ManagerRegistry;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 
 
@@ -25,16 +30,6 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProduitController extends AbstractController
 {
-    /**
-     * @Route("/", name="produit_index", methods={"GET"})
-     */
-    public function index(ProduitRepository $produitRepository): Response
-    {
-        return $this->render('produit/index.html.twig', [
-            'produits' => $produitRepository->findAll(),
-        ]);
-    }
-
     /**
      * @Route("/new", name="produit_new", methods={"GET", "POST"})
      */
@@ -45,15 +40,15 @@ class ProduitController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-           $imageFile=$form['imageFile']->getData();
-           $destination = $this->getParameter('kernel.project_dir').'/public/uploads/peintures';
-           $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-           $newFilename = "file".'-'.uniqid().'.'.$imageFile->guessExtension();
-           $imageFile->move(
-               $destination,
-               $newFilename
-           );
-           $produit->setFile($newFilename);
+            $imageFile=$form['imageFile']->getData();
+            $destination = $this->getParameter('kernel.project_dir').'/public/uploads/peintures';
+            $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $newFilename = "file".'-'.uniqid().'.'.$imageFile->guessExtension();
+            $imageFile->move(
+                $destination,
+                $newFilename
+            );
+            $produit->setFile($newFilename);
             $entityManager->persist($produit);
             $entityManager->flush();
 
@@ -66,9 +61,55 @@ class ProduitController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    /**
+     * @Route("/listp", name="produit_listp", methods={"GET"})
+     */
+    public function listp(ProduitRepository $produitRepository): Response
+    {
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+        $produits = $produitRepository->findAll();
+
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('produit/listp.html.twig', [
+            'produits' => $produits,
+        ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => true
+        ]);
+
+
+    }
+
 
     /**
-     * @Route("/{id}", name="produit_show", methods={"GET"})
+     * @Route("/show", name="produit_index", methods={"GET"})
+     */
+    public function index(ProduitRepository $produitRepository): Response
+    {
+        return $this->render('produit/index.html.twig', [
+            'produits' => $produitRepository->findAll(),
+
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="produit_show", methods={"GET"}, requirements={"id":"\d+"})
      */
     public function show(Produit $produit): Response
     {
@@ -76,10 +117,29 @@ class ProduitController extends AbstractController
             'produit' => $produit,
         ]);
     }
-
-
      /**
-     * @Route("showCat/{id}", name="produit_showCat", methods={"GET"})
+     * @Route("/qr/{id}", name="produit_show_qr", methods={"GET"}, requirements={"id":"\d+"})
+     */
+    public function show_with_qr(Produit $produit, QrCodeService $qrcodeService): Response
+    {
+
+        $url = 'id: '.$produit->getId().' | ';
+        $url = $url.'name: '.$produit->getName().' | ';
+        $url = $url.'category: '.$produit->getDescription().' | ';
+        $url = $url.'price: '.$produit->getPrice();
+
+        $qrCode = $qrcodeService->qrcodeByProduit($url);
+        $fileName = $qrCode[1];
+        return $this->render('produit/show_with_qr.html.twig', [
+            'produit' => $produit,
+            'qrCode' => $qrCode[0],
+            'fileName' => $fileName,
+        ]);
+    }
+
+
+    /**
+     * @Route("showCat/{id}", name="produit_showCat", methods={"GET"}, requirements={"id":"\d+"})
      */
     public function showByCat(ManagerRegistry $doctrine, $id ): Response
     {
@@ -88,13 +148,39 @@ class ProduitController extends AbstractController
         return $this->render('boutique/index.html.twig', [
             'produits' => $produits,
             'categories' => $categories
-         ] );
+        ] );
+    }
+    /**
+     * @Route("/tri",name="tri")
+     */
+    public function Tri(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT p FROM App\Entity\Produit p ORDER BY p.name DESC'
+        );
+        $produit = $query->getResult();
+        return $this->render('produit/index.html.twig',
+            array('produits'=>$produit));
+    }
+    /**
+     * @Route("/triP",name="triP")
+     */
+    public function TriP(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT p FROM App\Entity\Produit p ORDER BY p.price DESC'
+        );
+        $produit = $query->getResult();
+        return $this->render('produit/index.html.twig',
+            array('produits'=>$produit));
     }
 
 
 
     /**
-     * @Route("/{id}/edit", name="produit_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="produit_edit", methods={"GET", "POST"}, requirements={"id":"\d+"})
      */
     public function edit(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
     {
@@ -114,7 +200,7 @@ class ProduitController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="produit_delete", methods={"POST"})
+     * @Route("/{id}", name="produit_delete", methods={"POST"}, requirements={"id":"\d+"})
      */
     public function delete(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
     {
@@ -126,14 +212,13 @@ class ProduitController extends AbstractController
         return $this->redirectToRoute('produit_index', [], Response::HTTP_SEE_OTHER);
     }
 
-
-    /**
-     * @Route("/produit_show/{id}",name="produit_show")
+/**
+     * @Route("/produit_show0/{id}",name="produit_show0")
      */
-    public function singleProductA(Request $request, int $id): Response
+    public function singleProductA(Produit $produit,Request $request): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $produit = $entityManager->getRepository(Produit::class)->find($id);
+//        $produit = $entityManager->getRepository(Produit::class)->find($id);
         $avis = new Commentaire();
         $avis->setProduits($produit);
         $form = $this->createForm(CommentaireType::class, $avis);
@@ -144,9 +229,9 @@ class ProduitController extends AbstractController
             $entityManager->persist($avis);
             $entityManager->flush();
             $this->addFlash('success', 'Avis ajouté avec succés');
-            return $this->redirectToRoute('produit_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('show_with_qr', ['id'=>$produit->getId()], Response::HTTP_SEE_OTHER);
         }
-        return $this->render("produit/show.html.twig", [
+        return $this->render("produit/show_with_qr.html.twig", [
             "produit" => $produit,
             "categorie" => $produit->getCategory()->getLabel(),
             'form' => $form->createView(),

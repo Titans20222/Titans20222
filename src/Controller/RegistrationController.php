@@ -15,6 +15,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
+/**
+ * @Route("register/")
+ */
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
@@ -25,7 +28,7 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="app_register")
+     * @Route("user/", name="app_register")
      */
     public function register(Request $request, UserPasswordEncoderInterface $userPasswordEncoder, EntityManagerInterface $entityManager): Response
     {
@@ -93,7 +96,6 @@ class RegistrationController extends AbstractController
      */
     public function emailCheck(): Response
     {
-        
         return $this->render('registration/afterRegister.html.twig', [
             'controller_name' => 'HomeController',
         ]);
