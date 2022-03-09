@@ -75,25 +75,23 @@
         <h2 class="mb-4">Les Formations</h2>
     </div>
     <div>
-
+        <a style="margin-left: 1230px" href="{{ path('formation_new') }}">Ajouter Une Nouvelle Formation</a>
     <table class="table">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>NomFormation</th>
-            <th>Objectif_global</th>
-            <th>actions</th>
+            <th>Nom Formation</th>
+            <th>Description</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         {% for formation in formations %}
             <tr>
-                <td>{{ formation.id }}</td>
                 <td>{{ formation.nomFormation }}</td>
                 <td>{{ formation.objectifGlobal }}</td>
                 <td>
-                    <button class="btn btn-outline-dark" > <a href="{{ path('formation_show', {'id': formation.id}) }}">show</a> </button>
-                    <button class="btn btn-outline-dark" >   <a href="{{ path('formation_edit', {'id': formation.id}) }}">edit</a> </button>
+                    <button class="btn btn-outline-dark" > <a href="{{ path('formation_show', {'id': formation.id}) }}">Voir Plus</a> </button>
+                    <button class="btn btn-outline-dark" >   <a href="{{ path('formation_edit', {'id': formation.id}) }}">Modifier</a> </button>
                 </td>
             </tr>
         {% else %}
@@ -104,7 +102,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('formation_new') }}">Create new</a>
 </div>
 <footer class="ftco-footer ftco-section img">
     <div class="overlay"></div>

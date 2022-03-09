@@ -19,6 +19,25 @@ class PubliciteRepository extends ServiceEntityRepository
         parent::__construct($registry, Publicite::class);
     }
 
+
+
+
+
+
+
+
+    # public function search($term)
+    #{
+    #   return $this->createQueryBuilder('Publicite')
+    #       ->andWhere('Publicite.libelle LIKE :lib OR cat.iconKey LIKE :searchTerm')
+    #       ->setParameter('lib', '%'.$term.'%')
+    #       ->getQuery()
+    #       ->execute();
+    #}
+
+
+
+
     // /**
     //  * @return Publicite[] Returns an array of Publicite objects
     //  */

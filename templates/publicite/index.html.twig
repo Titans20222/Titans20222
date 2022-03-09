@@ -21,6 +21,7 @@
 
 {#  {% endblock %} #}
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,8 +55,8 @@
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
 </head>
-<body>
 
+<body>
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
         <a class="navbar-brand" href="index.html">Sanaaty<small>Art</small></a>
@@ -90,6 +91,7 @@
 <!-- END nav -->
 <body>
 
+
 <!--form class="form-floating">
     <input type="email" class="form-control is-invalid" id="floatingInputInvalid" placeholder="name@example.com" value="test@example.com">
     <label for="floatingInputInvalid">Invalid input</label>
@@ -100,12 +102,23 @@
             <span class="subheading">Consulter</span>
             <h2 class="mb-4">Les Publicités</h2>
         </div>
+
+
+      {#   <div class="container">
+                   {{ render(controller(
+                'App\Controller\SearchController::searchBar'
+            )) }}
+
+
+        </div> #}
+
+
         <table class="table">
             <thead>
             <tr>
                 <th>Id</th>
                 <th>NomPublicité</th>
-                <th>Objectif_global</th>
+                <th>Image</th>
                 <th>actions</th>
             </tr>
             </thead>
@@ -115,9 +128,12 @@
                     <td>{{ publicite.id }}</td>
                     <td>{{ publicite.title }}</td>
                     <td>{{ publicite.image }}</td>
+                    
+                    
                     <td>
                       <button class="btn btn-outline-dark" >  <a href="{{ path('publicite_show', {'id': publicite.id}) }}">show</a> </button>
                         <button class="btn btn-outline-dark" >    <a href="{{ path('publicite_edit', {'id': publicite.id}) }}">edit</a> </button>
+
                     </td>
                 </tr>
             {% else %}
@@ -125,10 +141,26 @@
                     <td colspan="4">no records found</td>
                 </tr>
             {% endfor %}
+            
+            
+            
+            
+            
+
+            
+            
+            
+            
+            
+            
+            
             </tbody>
         </table>
+        <button class="btn btn-outline-dark" ><a href="{{ path('publicite_new') }}">Create new</a></button>
+        <button class="btn btn-outline-dark" >    <a href="{{ path('publicite_rechercher') }}">Rechercher</a> </button>
 
-        <a href="{{ path('publicite_new') }}">Create new</a>
+
+
 
 </body>
 <footer class="ftco-footer ftco-section img">
@@ -233,6 +265,7 @@
 <script src="{{asset('js/main.js')}}"></script>
 
 </body>
+
 </html>
 
 

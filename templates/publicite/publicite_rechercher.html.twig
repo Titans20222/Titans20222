@@ -1,6 +1,5 @@
-
-
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <title>Sanaaty</title>
@@ -66,14 +65,78 @@
     </div>
 </nav>
 
-<div style="margin-top: 150px">
-    <h1>Ajouter une nouvelle Formation</h1>
 
-    {{ include('formation/_form.html.twig') }}
 
-    <a href="{{ path('formation_index') }}">Retour à La Liste</a>
 
-</div>
+
+
+
+
+
+
+
+<div style="margin-top: 200px">
+
+{% if form is defined %}
+    {{ form_start(form) }}
+
+    <div class="form-row align-items-end" >
+        <div class="col">
+            {{ form_row(form.nom) }}
+        </div>
+
+        <div class="col">
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Rechercher</button>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endif %}
+
+
+    {% if publicites is not empty %}
+        <table id="publicites" class="table table-striped">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>NomPublicité</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for publicite  in publicites %}
+                <tr>
+                    <td>{{ publicite.id }}</td>
+                    <td>{{ publicite.title }}</td>
+                    <td>{{ publicite.image }}</td>
+                    <td>
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucun articles</p>
+    {% endif %}
+
+
+
+<div style="margin-top: 2px">
+
+    <button type="submit" class="btn btn-success"><a href="{{ path('publicite') }}">back to list</a></button>
+
+
+
+
+    <div style="margin-top: 250px">
+
+
+
+
+
 
 
 
@@ -177,6 +240,3 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 <script src="{{asset('js/google-map.js')}}"></script>
 <script src="{{asset('js/main.js')}}"></script>
-
-</body>
-</html>

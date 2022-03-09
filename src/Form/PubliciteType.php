@@ -4,6 +4,18 @@ namespace App\Form;
 
 use App\Entity\Publicite;
 use Symfony\Component\Form\AbstractType;
+
+
+
+
+use App\Entity\PropertySearch;
+use App\Form\PropertySearchType;
+
+
+
+
+
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,6 +26,9 @@ class PubliciteType extends AbstractType
         $builder
             ->add('title')
             ->add('image')
+
+
+
 
         ;
     }

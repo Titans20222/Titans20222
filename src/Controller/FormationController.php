@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Formation;
+use App\Entity\Publicite;
 use App\Form\FormationType;
 use App\Repository\FormationRepository;
+use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +27,47 @@ class FormationController extends AbstractController
             'formations' => $formationRepository->findAll(),
         ]);
     }
+
+
+
+
+
+
+
+
+
+   # public function index(FormationRepository $formationRepository): Response
+    #{
+
+    #   $publicite=new Publicite();
+    #   $form = $this->createFormBuilder($publicite)
+    #       ->add('libelle',TextType::class,array('class'=>'form'))
+    #       ->getForm();
+    #   $form->handleRequest($request);
+
+    #   if($form->isSubmitted()&&$form->isValid()) {
+    #       $term = $publicite->getLibelle();
+    #       $ allpublicite = $publiciteRepository ->($term);
+    #   }
+    #   else
+    #   {
+    #       $allpublicite=$publiciteRepository->findAll();
+    #   }
+    #   return $this->render('formation/index.html.twig', [
+    #       'formations' => $formationRepository->findAll(),
+    #   ]);
+    #}
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * @Route("/new", name="formation_new", methods={"GET", "POST"})
