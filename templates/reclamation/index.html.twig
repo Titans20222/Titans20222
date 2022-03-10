@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+
+
+{% block body %}
+    <br>
+    <br> <br>
+    <br>
+
+
+
+   <center> {% for message in app.flashes('success') %}
+        <div class="alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}</center>
+    <center><h1>Les Reclamations</h1></center>
+
+    <table class="table">
+        <thead>
+
+
+            <tr>
+                <input id="myInput" type="text" placeholder="Rechercher..">
+                <!--  <th>Id</th>   -->
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th><a href="{{ path('reclamation_new') }}"class="btn btn-primary p-3 px-xl-4 py-xl-3">Create new</a></th>
+
+
+            </tr>
+        </thead>
+        <tbody id="rec">
+        {% for reclamation in reclamations %}
+        <tbody id="myTable">
+        <br>
+        <br>
+        <tr>
+
+                <!-- <td>{{ reclamation.id }}</td>  -->
+                <td>{{ reclamation.titre }}</td>
+                <td>{{ reclamation.description }}</td>
+                <td>{{ reclamation.date ? reclamation.date|date('d-m-Y') : '' }}</td>
+                <td>{{ reclamation.type }}</td>
+                <td>
+                    <a href="{{ path('reclamation_show', {'id': reclamation.id}) }}"class="btn btn-primary p-3 px-xl-4 py-xl-3">show</a>
+                    <a href="{{ path('reclamation_edit', {'id': reclamation.id}) }}"class="btn btn-primary p-3 px-xl-4 py-xl-3">edit</a>
+                    {{ include('reclamation/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-template d-flex justify-content-center">
+
+        {{ knp_pagination_render(reclamations) }}
+
+    </ul>
+</nav>
+
+
+
+
+
+    <script>
+        function dfay(fn, ms) {
+            let timer = 0
+            return function(...args) {
+                clearTimeout(timer)
+                timer = setTimeout(fn.bind(this, ...args), ms || 0)
+            }
+        }
+        $('#y').keyup(dfay(function(e){
+            var serie=$('#y').val();
+            var DATA =  {'y' : serie};
+            console.log(DATA);
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "{{ path('reclamation_index')}}",
+                data:DATA,
+                success: function (data) {
+                    $("#rec").replaceWith("<tbody id='rec'>")
+                    console.log(data);
+                    $.each(data,function(k,f) {
+                        console.log(f);
+
+                        var test="{{path('reclamation_edit', {'id':'ReplacewithcorrectValue' })}}'>"
+                        var modif = test.replace("ReplacewithcorrectValue", f.id)
+                        var test="{{path('reclamation_delete', {'id':'ReplacewithcorrectValue' })}}'>"
+                        var supp = test.replace("ReplacewithcorrectValue", f.id)
+
+                        $('#rec').append(
+                            "<tr>"+
+                            "<td>"+f.titre+"</td>"+"<td>"+f.description+"</td>"+
+                            "<td>"+f.date+"</td>"+"<td>"+f.type+"</td>"+
+                            "<td>"+"<a href='"+modif+"Modifier"+"<i class='mdi mdi-pencil'>"+"</i>"+"</a>"+"</td>"+
+                            "<td>"+"<a href='"+supp+"Supprimer"+"</a>"+"</td>"
+
+
+                      );
+                    });
+                },
+                error:function ()
+                {
+                    $("#rec").replaceWith("<tbody id='rec'>")
+                }
+            });
+        }, 500));
+    </script>
+
+
+
+    {% endblock %}
+

@@ -1,0 +1,15 @@
+{% extends 'adminT.html.twig' %}
+
+{% block content %}
+
+{% block title %}New Reponse Reclamation{% endblock %}
+
+{% block body %}
+    <center><h1>Create new Reponse Reclamation</h1></center>
+
+    <center>{{ include('reponse_reclamation/_form.html.twig') }}</center>
+    <br><br>
+
+    <center>   <a href="{{ path('reponse_reclamation_index') }}"class="btn bg-gradient-primary mt-4 w-100">back to list</a></center>
+{% endblock %}
+{% endblock %}

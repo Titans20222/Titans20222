@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('reponse_reclamation_delete', {'id': reponse_reclamation.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reponse_reclamation.id) }}">
+    <a href="{{ path('reponse_reclamation_index1')}}" class="btn bg-gradient-primary mt-4 w-100">Delete</a>
+</form>
