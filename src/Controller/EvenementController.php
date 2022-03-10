@@ -85,9 +85,9 @@ class EvenementController extends AbstractController
          $p = $evenement->getNomLieu();
 
 
-         $map = array('address' => '', 'lat' => '', 'lng' => '', 'city' => '', 'department' => '', 'region' => '', 'country' => '', 'postal_code' => '');
+      #   $map = array('address' => '', 'lat' => '', 'lng' => '', 'city' => '', 'department' => '', 'region' => '', 'country' => '', 'postal_code' => '');
 
-    $map = Mymap::geocodeAddress($p);
+  #  $map = Mymap::geocodeAddress($p);
 #$res = $map->geocodeAddress($p);
 
 

@@ -2,21 +2,35 @@
 
 namespace App\Entity;
 
+
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Self_;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
+ * @ApiResource(formats={"json"})
  * @ORM\Entity(repositoryClass=UsersRepository::class)
+ * @ORM\Table(name="`users`")
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class Users implements UserInterface
 {
+
+    const ROLE_ADMIN='ROLE_ADMIN',ROLE_ARTISAN='ROLE_ARTISAN';
+
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+       * @Groups("post:read")
      */
     private $id;
 
@@ -27,30 +41,54 @@ class Users implements UserInterface
 
     /**
      * @ORM\Column(type="json")
+     * @Groups("post:read")
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups("post:read")
      */
     private $password;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Evenement::class, mappedBy="idcreateur")
+
+    protected $captchaCode;
+
+
+    
+  /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     * @Groups("post:read")
      */
-    private $evenements;
+    private $nom;
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     *  @Groups("post:read")
+     */
+    private $prenom;
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     * @Groups("post:read")
+     */
+    private $adresse;
+
+   
 
     /**
-     * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="idcreateur")
+     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="author", orphanRemoval=true)
+     * @Groups("post:read")
      */
-    private $formations;
+    private $commentaires;
 
     public function __construct()
     {
-        $this->evenements = new ArrayCollection();
-        $this->formations = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
+
+  
+
+
 
     public function getId(): ?int
     {
@@ -69,6 +107,50 @@ class Users implements UserInterface
         return $this;
     }
 
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getCaptchaCode()
+    {
+        return $this->captchaCode;
+    }
+
+    public function setCaptchaCode($captchaCode)
+    {
+        $this->captchaCode = $captchaCode;
+    }
     /**
      * A visual identifier that represents this user.
      *
@@ -132,12 +214,44 @@ class Users implements UserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+    public  function isAdmin():bool
+    {
+        return in_array(self::ROLE_ADMIN,$this->getRoles());
+    }
+    public  function isArtisan():bool
+    {
+        return in_array(self::ROLE_ARTISAN,$this->getRoles());
+    }
 
-    
-   
+  /**
+   * @return Collection|Commentaire[]
+   */
+  public function getCommentaires(): Collection
+  {
+      return $this->commentaires;
+  }
 
-    
-    
+  public function addCommentaire(Commentaire $commentaire): self
+  {
+      if (!$this->commentaires->contains($commentaire)) {
+          $this->commentaires[] = $commentaire;
+          $commentaire->setAuthor($this);
+      }
 
-   
+      return $this;
+  }
+
+  public function removeCommentaire(Commentaire $commentaire): self
+  {
+      if ($this->commentaires->removeElement($commentaire)) {
+          // set the owning side to null (unless already changed)
+          if ($commentaire->getAuthor() === $this) {
+              $commentaire->setAuthor(null);
+          }
+      }
+
+      return $this;
+  }
+
+
 }

@@ -47,9 +47,9 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/new", name="reservation_new", methods={"GET", "POST"})
+     * @Route("/new", name="reservation_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager, Swift_Mailer $mailer,int $id): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Swift_Mailer $mailer): Response
     {
         $reservation = new Reservation();
         $form = $this->createForm(Reservation1Type::class, $reservation);
@@ -66,15 +66,17 @@ class ReservationController extends AbstractController
 
             $email = $reservation->getAdresseemail();
           $nbp = $reservation->getNbrplace();
-          $ev =new Evenement();
-          $ev= $entityManager->findBy($id);
-          $reservation->setIdevenement($ev);
+          
+         # $ev= $entityManager->findBy($id);
+        #  $reservation->setIdevenement($ev);
           $reservation->getIdevenement()->setNbrplacedispo( $reservation->getIdevenement()->getNbrplacedispo() - $nbp);
          # $reservation->setIdevenement($req)
           $this->mailsender($mailer ,$email, $reservation);
             $entityManager->flush();
 
-           
+            $twilioNumber='+13606851303';
+            $twilioClient = new Client('AC4e747cdc9de3b0741739beebb334962c','2f4079cf1db9100cdf150fb951d02c5e');
+            $sender       = new SmsSender($twilioClient);
             
             $to      = '+21651966671';
             $payload = [

@@ -21,16 +21,28 @@ class Reservation
 
     /**
      * @ORM\Column(type="integer")
-     
+     * @Assert\Positive(
+     *     message = "le nombre doit etre positive "
+     * )
      */
     private $nbrplace;
+     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+    
+     * * @Assert\Email(
+     *     message = "le email '{{ value }}' n'est pas valide."
+     * )
+     * 
+     * **/
     private $adresseemail;
      
 
     
     /**
      * @ORM\Column(type="integer")
-     
+      * @Assert\Positive(
+     *     message = "le numero doit etre positive " )
+     * )
      */
      private $numtel;
     /**

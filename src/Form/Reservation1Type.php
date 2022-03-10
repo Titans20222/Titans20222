@@ -20,15 +20,15 @@ class Reservation1Type extends AbstractType
             ->add('nbrplace')
             ->add('adresseemail')
             ->add('numtel')
-            #->add('idevenement',EntityType::class, [
-             #   'class' => Evenement::class,
-              #  'query_builder' => function (EvenementRepository $er) {
-               #     return $er->createQueryBuilder('u')
-                #        ->orderBy('u.id', 'ASC');
-                #},
-                #'choice_label' => 'id',
-        #    ]
-        #)
+            ->add('idevenement',EntityType::class, [
+                'class' => Evenement::class,
+                'query_builder' => function (EvenementRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.id', 'ASC');
+                },
+                'choice_label' => 'nomEvenement',
+            ]
+        )
         ;
 
     }

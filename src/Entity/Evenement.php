@@ -6,13 +6,11 @@ use App\Repository\EvenementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-<<<<<<< Updated upstream
-=======
+
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Annotation\Groups;
 use phpDocumentor\Reflection\Types\Integer;
->>>>>>> Stashed changes
 
 /**
  * @ORM\Entity(repositoryClass=EvenementRepository::class)
@@ -28,39 +26,35 @@ class Evenement
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-<<<<<<< Updated upstream
-=======
      * @Assert\NotBlank(message="nomEvenement is required")
       * @Groups("evenement")
->>>>>>> Stashed changes
      */
-
+    private $nomEvenement;
       /**
      * @ORM\Column(type="float")
-     
+    * @Assert\Positive 
      */
+
     private $prix;
-      /**
-   * @ORM\Column(type="string")
-  */
-    private $nomEvenement;
+  
+ 
    /**
    * @ORM\Column(type="string")
+   *  * @ORM\Column(type="string", nullable=false)
+     * @Assert\NotBlank(message="required")
   */
     private $nomLieu;
  
     /**
    * @ORM\Column(type="integer")
-  */
+    * @Assert\Positive
+   */
   private $nbrplacedispo;
   
     /**
      * @ORM\Column(type="date", nullable=true)
-<<<<<<< Updated upstream
-=======
-     * @Assert\NotBlank(message="nomEvenement is required")
+     * @Assert\NotBlank(message="date is required")
     * @Groups("evenement")
->>>>>>> Stashed changes
      */
     
     private $date;

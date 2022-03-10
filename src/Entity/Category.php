@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\CategorieRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CategorieRepository::class)
+ * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
-class Categorie
+class Category
 {
     /**
      * @ORM\Id
@@ -20,15 +20,18 @@ class Categorie
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=255)
      */
-    private $nomCategorie;
+    private $label;
+
+    
 
     /**
-     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="cotegorie")
+     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="category",cascade={"all"},orphanRemoval=true)
      */
     private $produits;
 
+    
     public function __construct()
     {
         $this->produits = new ArrayCollection();
@@ -39,17 +42,18 @@ class Categorie
         return $this->id;
     }
 
-    public function getNomCategorie(): ?string
+    public function getLabel(): ?string
     {
-        return $this->nomCategorie;
+        return $this->label;
     }
 
-    public function setNomCategorie(string $nomCategorie): self
+    public function setLabel(string $label): self
     {
-        $this->nomCategorie = $nomCategorie;
+        $this->label = $label;
 
         return $this;
     }
+  
 
     /**
      * @return Collection|Produit[]
@@ -63,7 +67,7 @@ class Categorie
     {
         if (!$this->produits->contains($produit)) {
             $this->produits[] = $produit;
-            $produit->setCotegorie($this);
+            $produit->setCategory($this);
         }
 
         return $this;
@@ -73,11 +77,13 @@ class Categorie
     {
         if ($this->produits->removeElement($produit)) {
             // set the owning side to null (unless already changed)
-            if ($produit->getCotegorie() === $this) {
-                $produit->setCotegorie(null);
+            if ($produit->getCategory() === $this) {
+                $produit->setCategory(null);
             }
         }
 
         return $this;
     }
+
+   
 }
