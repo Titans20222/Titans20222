@@ -88,6 +88,7 @@
         <div class="col">
             <div class="form-group">
                 <button type="submit" class="btn btn-success">Rechercher</button>
+
             </div>
         </div>
     </div>
@@ -99,7 +100,7 @@
         <table id="publicites" class="table table-striped">
             <thead>
             <tr>
-                <th>Id</th>
+
                 <th>NomPublicité</th>
                 <th>Image</th>
                 <th>Actions</th>
@@ -108,7 +109,7 @@
             <tbody>
             {% for publicite  in publicites %}
                 <tr>
-                    <td>{{ publicite.id }}</td>
+
                     <td>{{ publicite.title }}</td>
                     <td>{{ publicite.image }}</td>
                     <td>

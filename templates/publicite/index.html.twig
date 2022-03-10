@@ -113,10 +113,35 @@
         </div> #}
 
 
-        <table class="table">
+
+        {#<div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">publicite.title</h5>
+            </div>
+        </div>#}
+
+
+         <div class="card" style="width: 18rem;all-space-treatment: ; ">
+        {% for publicite in publicites %}
+            <div class="card-body">
+                <p class="card-text">{{ publicite.title }}</p>
+            </div>
+            <button class="btn btn-outline-dark" >  <a href="{{ path('publicite_show', {'id': publicite.id}) }}">Afficher</a> </button>
+            <button class="btn btn-outline-dark" >    <a href="{{ path('publicite_edit', {'id': publicite.id}) }}">Modifier</a> </button>
+        {% else %}
+                <p>no records found</p>
+        {% endfor %}
+        </div>
+
+
+
+
+         {#  <table class="table">
+
             <thead>
             <tr>
-                <th>Id</th>
+
                 <th>NomPublicité</th>
                 <th>Image</th>
                 <th>actions</th>
@@ -125,14 +150,14 @@
             <tbody>
             {% for publicite in publicites %}
                 <tr>
-                    <td>{{ publicite.id }}</td>
+
                     <td>{{ publicite.title }}</td>
                     <td>{{ publicite.image }}</td>
                     
                     
                     <td>
-                      <button class="btn btn-outline-dark" >  <a href="{{ path('publicite_show', {'id': publicite.id}) }}">show</a> </button>
-                        <button class="btn btn-outline-dark" >    <a href="{{ path('publicite_edit', {'id': publicite.id}) }}">edit</a> </button>
+                      <button class="btn btn-outline-dark" >  <a href="{{ path('publicite_show', {'id': publicite.id}) }}">Afficher</a> </button>
+                        <button class="btn btn-outline-dark" >    <a href="{{ path('publicite_edit', {'id': publicite.id}) }}">Modifier</a> </button>
 
                     </td>
                 </tr>
@@ -141,21 +166,14 @@
                     <td colspan="4">no records found</td>
                 </tr>
             {% endfor %}
-            
-            
-            
-            
-            
-
-            
-            
-            
-            
-            
-            
-            
             </tbody>
         </table>
+        #}
+
+        </div>
+
+
+
         <button class="btn btn-outline-dark" ><a href="{{ path('publicite_new') }}">Create new</a></button>
         <button class="btn btn-outline-dark" >    <a href="{{ path('publicite_rechercher') }}">Rechercher</a> </button>
 
