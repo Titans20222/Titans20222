@@ -15,7 +15,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class BoutiqueController extends AbstractController
 {
     /**
+<<<<<<< HEAD
      * @Route("/show", name="alpha")
+=======
+     * @Route("/boutique", name="alpha")
+>>>>>>> origin/BrahimeElhamed
      */
 
     public function index(): Response
