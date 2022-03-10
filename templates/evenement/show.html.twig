@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% block content  %}
+{% block title %}Evenement{% endblock %}
+
+{% block body %}
+    <br>
+    <br>
+    <br>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ evenement.id }}</td>
+            </tr>
+            <tr>
+                <th>NomEvenement</th>
+                <td>{{ evenement.nomEvenement }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('evenement_index') }}">liste</a><br>
+ <a href="{{ path('reservation_new') }}">reserver</a>
+
+
+   
+{% endblock %}
+{% endblock %}

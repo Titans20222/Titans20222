@@ -1,0 +1,27 @@
+{% extends 'adminT.html.twig' %}
+{% block content  %}
+{% block title %}Reservation{% endblock %}
+
+{% block body %}
+    <h1>Reservation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reservation.id }}</td>
+            </tr>
+            <tr>
+                <th>Nbrplace</th>
+                <td>{{ reservation.nbrplace }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('reservation_indexadmin') }}">back to list</a>
+
+    <a href="{{ path('reservation_editadmin', {'id': reservation.id}) }}">edit</a>
+
+    {{ include('reservationadmin/_delete_form.html.twig') }}
+{% endblock %}
+{% endblock %}

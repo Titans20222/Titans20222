@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block content%}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+<br>
+    <h1>Evenements</h1>
+
+ 
+
+  
+    <table class="table">
+       <input id="myInput" type="textarea" placeholder="Rechercher..">
+          
+        <thead>
+            <tr>
+               
+                <th>NomEvenement</th>
+                <th>Date</th>
+                <th>Places disponible</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for evenement in evenements %}
+        <tbody id="myTable">
+            <tr>
+                
+                <td>{{ evenement.nomEvenement }}</td>
+                <td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
+                 <td>{{ evenement.nbrplacedispo}}</td>
+                <td>
+
+                    <a href="{{ path('evenement_show', {'id': evenement.id}) }}">consulter</a>
+             
+                </td>
+            </tr>
+          
+        {% else %}
+            <tr>
+                <td colspan="4">Liste vide</td>
+            </tr>
+        
+        {% endfor %}
+         <tr>
+           
+            <td><a href="{{ path('reservation_new') }}">reserver</a></td>
+           </td>
+          
+            
+            </tr>
+        </tbody>
+         
+
+    </table>
+
+  
+ 
+{% endblock %}
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-template d-flex justify-content-center">
+
+   
+
+    </ul>
+</nav>
+
+
+{% endblock %}
+

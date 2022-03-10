@@ -1,0 +1,17 @@
+{% extends 'adminT.html.twig' %}
+
+{% block title %}Hello PiechartController!{% endblock %}
+{% block content%}
+{% block body %}
+<div class="robust-content content container-fluid">
+     <div class="content-wrapper">
+         <div id="div_chart"></div>
+ 
+         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+         <script type="text/javascript">
+             {{ gc_draw(piechart, 'div_chart') }}
+         </script>
+ 
+     </div>
+{% endblock %}
+{% endblock %}

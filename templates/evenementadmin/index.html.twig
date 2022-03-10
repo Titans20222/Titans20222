@@ -1,0 +1,62 @@
+{% extends 'adminT.html.twig' %}
+
+
+
+{% block content%}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+    <h1>Evenements</h1>
+   
+<div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                    <div class="input-group input-group-outline">
+                        <label class="form-label">ecrie ici</label>
+                        <input type="text" class="form-control" >
+                    </div>
+                </div>
+                </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NomEvenement</th>
+                <th>Date</th>
+                 <th>places disponible</th>
+                <th>actions</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+       
+        {% for evenement in evenements %}
+            <tr>
+                <td>{{ evenement.id }}</td>
+                <td>{{ evenement.nomEvenement }}</td>
+                <td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
+               <td>{{ evenement.nbrplacedispo}}</td>
+                <td>
+
+                    <a href="{{ path('evenement_showadmin', {'id': evenement.id}) }}">show</a>
+                    <a href="{{ path('evenement_editadmin', {'id': evenement.id}) }}">edit</a>
+                </td>
+       
+            </tr>
+        
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('evenement_newadmin') }}">Create new</a> <br>
+      <td><a href="{{ path('reservation_newadmin') }}">reserver</a></td>
+    <td> {{knp_pagination_render(evenements)}}</td>
+{% endblock %}
+{% endblock %}
