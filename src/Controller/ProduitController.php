@@ -93,6 +93,9 @@ class ProduitController extends AbstractController
             "Attachment" => true
         ]);
 
+        return $this->render('produit/listp.html.twig', [
+            'produits' => $produits,
+        ] );
 
     }
 
@@ -229,11 +232,8 @@ class ProduitController extends AbstractController
             $entityManager->persist($avis);
             $entityManager->flush();
             $this->addFlash('success', 'Avis ajouté avec succés');
-<<<<<<< HEAD
+
             return $this->redirectToRoute('show_with_qr', ['id'=>$produit->getId()], Response::HTTP_SEE_OTHER);
-=======
-            return $this->redirectToRoute('show_with_qr', ['id'=>$id], Response::HTTP_SEE_OTHER);
->>>>>>> origin/BrahimeElhamed
         }
         return $this->render("produit/show_with_qr.html.twig", [
             "produit" => $produit,
