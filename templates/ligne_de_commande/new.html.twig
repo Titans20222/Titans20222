@@ -2,10 +2,17 @@
 
 {% block title %}New Lignedecommande{% endblock %}
 
-{% block body %}
+{% block content %}
+
+<br> 
+<br>
+<br>
+<center>
     <h1>Create new Lignedecommande</h1>
 
-    {{ include('lignedecommande/_form.html.twig') }}
+
+    {{ include('ligne_de_commande/_form.html.twig') }}
+    </center>
 
     <a href="{{ path('lignedecommande_index') }}">back to list</a>
 {% endblock %}

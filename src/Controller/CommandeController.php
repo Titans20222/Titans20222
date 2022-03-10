@@ -14,8 +14,9 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Repository\ProduitRepository;
 use App\Repository\LigneDeCommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
-//use Dompdf\Dompdf;
-//use Dompdf\Options;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 
 /**
  * @Route("/commande")
@@ -30,6 +31,17 @@ class CommandeController extends AbstractController
     {
         return $this->render('commande/index.html.twig', [
             'commandes' => $commandRepository->findAll(),
+        ]);
+    }
+
+
+     /**
+     * @Route("/back", name="back")
+     */
+    public function indexb(): Response
+    {
+        return $this->render('adminT.html.twig', [
+            'controller_name' => 'CommandeController',
         ]);
     }
 
@@ -53,91 +65,6 @@ class CommandeController extends AbstractController
             'commande' => $commande,
             'form' => $form->createView(),
         ]);
- /*   public function new(Request $request,ProduitRepository $produitRepository): Response
-    {
-        $session = $request->getSession();
-        if (!$session->has('name'))
-        {
-            $this->get('session')->getFlashBag()->add('info', 'Erreur de  Connection veuillez se connecter .... ....');
-            return $this->redirectToRoute('user_login');
-        }
-        else
-        {
-            $name = $session->get('name');
-           // $compteur = $compteurRepository->find(1);
-            //$numc= $compteur->getNumcom();
-            $commande = new Commande();
-            $form = $this->createForm(CommandeType::class, $commande);
-            $form->handleRequest($request);
-            $lignedecommande = new LCommande();
-            $f = $this->createForm(LigneDeCommandeType::class, $lignedecommande);
-            $f->handleRequest($request);
-
-            $prix_total = 0;
-            $montht = 0;
-            $ligne = 0;
-
-            if (!$session->has('commande'))
-            {
-                $session->set('commande',array());
-
-            }
-            $session = $request->getSession();
-            $name = $session->get('name');
-            $choix = "";
-            $Tabcomm = $session->get('commande', []);
-
-            if ($form->isSubmitted() || $f->isSubmitted()) {
-
-                $choix = $request->get('bt');
-                if($choix =="Valider"){
-                    $em = $this->getDoctrine()->getManager();
-                    $lig = sizeof($Tabcomm);
-                    for ($i = 1;$i<=$lig;$i++)
-                    {
-                        $lignedecommande = new LigneDeCommande();
-                        $prod = $produitRepository->findOneBy(array('id'=>$Tabcomm[$i]->getProduit()));
-                        $lignedecommande->setProduit($prod);
-                        $lignedecommande->setLigne($i);
-                       // $lignedecommande->setNumcommande($Numcommande);
-                        $lignedecommande->setPrix($Tabcomm[$i]->getPrix());
-                        $lignedecommande->setQte($Tabcomm[$i]->getQte());
-                        $em->persist($lignedecommande);
-                        $em->flush();
-                        $montht = $Tabcomm[$i]->getPrix()*$Tabcomm[$i]->getQte();
-
-                        $prix_total = $prix_total ;
-                    }
-
-                    //$commande->setNumc($Numc);
-
-
-                    $commande->setPrix_total($prix_total);
-                    $em->persist($commande);
-
-                    //$compteur->setNumcom($numc+1);
-                  //  $em->persist($compteur);
-                    $em->flush();
-                    $session->clear();
-                }
-                else if($choix =="Add"){
-                    $ligne = sizeof($Tabcomm)+1;
-                    $lignedecommande->setNumcommande($Numcommande);
-                    $lignedecommande->setLigne($ligne);
-                    $Tabcomm[$ligne] = $lignedecommande;
-                    $session->set('commande',$Tabcomm);
-                }
-            }
-            return $this->render('commande/new.html.twig', [
-                'commande' => $commande,'lcomm'=>$Tabcomm,
-                'form' => $form->createView(),
-                'lignedecommande' => $lignedecommande,'name'=>$name,
-                'f' => $f->createView(),'numc'=>$Numc,
-                'prix_total'=>$prix_total,'montht'=>$montht,'ligne'=>$ligne,
-
-            ]);
-        }*/
-
     }
 
     /**
@@ -183,126 +110,88 @@ class CommandeController extends AbstractController
         return $this->redirectToRoute('commande_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    /*public function montantAction()
-    {
-        $em=$this->getDoctrine()->getManager();
 
-        //$fs=$em->getRepository(clubs::class)->findQB();
-        $fs=$em->getRepository(commande::class)->montant();
 
-        $em->flush();
-        $serializer = new Serializer( [new ObjectNormalizer()]);
-        $formated = $serializer->normalize($fs);
-        return new JsonResponse($formated);
-    }*/
-
-       /* $session = $request->getSession();
-        if (!$session->has('name'))
-        {
-            $this->get('session')->getFlashBag()->add('info', 'Erreur de  Connection veuillez se connecter .... ....');
-            return $this->redirectToRoute('app_register');
-        }
-        else
-        {
-
-            $name = $session->get('name');
-            return $this->render('commande/index.html.twig', ['name'=>$name,
-                'commandes' => $commandeRepository->findAll(),
-            ]);
-        }
-*/
-
-   /* /**
-     * @Route("/new", name="commande_new", methods={"GET","POST"})
-     * @param Request $request
-     * @param ProduitRepository $produitRepository
-     * @param $Numcommande
-     * @param $Numc
-     * @param $prix_total
-     * @return Response
+      /**
+     * @Route("/pdf/list", name="commande_pdf", methods={"GET"})
      */
-   /* public function new(Request $request, ProduitRepository $produitRepository, $Numcommande, $Numc, $prix_total): Response
+    public function pdf(CommandeRepository $commandeRepository): Response
     {
-        $session = $request->getSession();
-        if (!$session->has('name'))
-        {
-            $this->get('session')->getFlashBag()->add('info', 'Erreur de  Connection veuillez se connecter .... ....');
-            return $this->redirectToRoute('app_register');
+
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+        $commande = $commandeRepository->findAll();
+
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('commande/Listepdf.html.twig', [
+            'commandes' => $commande,
+        ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("Listepdf.pdf", [
+            "Attachment" => true
+        ]);
+    }
+      /**
+     * @Route("/mailling/comm", name="Envoyer_Mail")
+     */
+    public function sendEmail(CommandeRepository $commandeRepository,\Swift_Mailer $mailer): Response
+    {
+      
+        $message = (new \Swift_Message('VERFICATION'))
+            ->setFrom('yasmine.triki@esprit.tn')
+            ->setTo('yasmine.triki@esprit.tn')
+            ->setBody("Valider Votre Compte")
+        ;
+        $mailer->send($message) ;
+
+        return $this->render('commande/index.html.twig', [
+            'commandes' => $commandeRepository->findAll(),
+        ]);
+    }
+    /**
+     * @Route("/search/commande", name="commande_r")
+     */
+    public function recherche(Request $request, CommandeRepository $commandeRepository)
+    {
+        $data=$request->get('data');
+        $commande=$commandeRepository->reche($data);
+        return $this->render('commande/index.html.twig', [
+            'commandes' =>  $commande,  /*$allEmployeurQuery*/
+
+            /* 'employers' => $employerRepository->findBy(array('nom' => $data)),*/
+        ]);
+    }
+       /**
+     * @Route("/triH/com", name="trih_commande")
+     */
+    public function Tri(Request $request,CommandeRepository $repository): Response
+    {
+        // Retrieve the entity manager of Doctrine
+        $order=$request->get('type');
+        if($order== "Croissant"){
+            $commandes = $repository->tri_asc();
         }
-        else
-        {
-            $name = $session->get('name');
-            $commande = new Commande();
-            $form = $this->createForm(CommandeType::class, $commande);
-            $form->handleRequest($request);
-            $lignedecommande = new LigneDeCommande();
-            $f = $this->createForm(LigneDeCommandeType::class, $lignedecommande);
-            $f->handleRequest($request);
-            $totht = 0;
-            $totva = 0;
-            $totttc = 0;
-            $montht = 0;
-            $lig = 0;
-
-            if (!$session->has('commande'))
-            {
-                $session->set('commande',array());
-
-            }
-            $session = $request->getSession();
-            $name = $session->get('name');
-            $choix = "";
-            $Tabcomm = $session->get('commande', []);
-
-            if ($form->isSubmitted() || $f->isSubmitted()) {
-
-                $choix = $request->get('bt');
-                if($choix =="Valider"){
-                    $em = $this->getDoctrine()->getManager();
-                    $lig = sizeof($Tabcomm);
-                    for ($i = 1;$i<=$lig;$i++)
-                    {
-                        $lignedecommande = new LigneDeCommande();
-                        $prod = $produitRepository->findOneBy(array('id'=>$Tabcomm[$i]->getProduit()));
-                        $lignedecommande->setProduit($prod);
-                        $lignedecommande->setLigne($i);
-                      //  $lignedecommande->setNumcommande($Numcommande);
-                        $lignedecommande->setPrix($Tabcomm[$i]->getPv());
-                        $lignedecommande->setQte($Tabcomm[$i]->getQte());
-                        $em->persist($lignedecommande);
-                        $em->flush();
-                        $montht = $Tabcomm[$i]->getPv()*$Tabcomm[$i]->getQte();
-                        $monttva = $montht *($Tabcomm[$i]->getTva())*0.01;
-                        $totht = $totht + $montht;
-                        $totva = $totva + $monttva;
-                        $totttc = $totttc + ($totht + $totva);
-                    }
-
-                    $commande->setNumc($Numc);
-
-                    $commande->setPrix_total($prix_total);
-                    $em->persist($commande);
-
-                    $em->flush();
-                    $session->clear();
-                }
-                else if($choix =="Add"){
-                    $montht = $lignedecommande->getPrix()*$lignedecommande->getQte();
-                    $ligne = sizeof($Tabcomm)+1;
-                    $lignedecommande->setNumcommande($Numcommande);
-                    $lignedecommande->setLigne($ligne);
-                    $Tabcomm[$lig] = $lignedecommande;
-                    $session->set('commande',$Tabcomm);
-                }
-            }
-            return $this->render('commande/new.html.twig', [
-                'commande' => $commande,'lcomm'=>$Tabcomm,
-                'form' => $form->createView(),
-                'lcommande' => $lignedecommande,'name'=>$name,
-                'f' => $f->createView(),'numc'=>$Numc,
-                'prix_total'=>$prix_total,'montht'=>$montht,'ligne'=>$ligne,
-
-            ]);
+        else {
+            $commandes = $repository->tri_desc();
         }
-    }*/
+        // Render the twig view
+        return $this->render('commande/index.html.twig', [
+            'commandes' => $commandes
+        ]);
+    }
+    
 }

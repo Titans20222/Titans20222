@@ -1,10 +1,46 @@
 {% extends 'base.html.twig' %}
 {% block content  %}
 
-{% block title %}Commande index{% endblock %}
+
 
 {% block body %}
+
+
+<br> 
+<br>
+<br> 
+<br><br> 
+<br>
+<center>
     <h1>Commande index</h1>
+
+    <form method="post" action="{{ path('commande_r') }}">
+        <label></label>
+        <label>
+
+            <input PLACEHOLDER="SEARCH !" type="text" name="data" class="form-control">
+
+
+        </label>
+
+
+        <input type="submit" class="btn btn-success" value="FIND">
+
+    </form>
+    <br>
+    <br>
+
+    <form method="post" action="{{ path('trih_commande') }}">
+        <label>
+            <select class="form-control" name="type">
+                <option>Croissant</option>
+                <option>Décroissant</option>
+            </select>
+        </label>
+        <input type="submit" class="btn btn-success" value="Trier!">
+    </form>
+    <br>
+    <br>
 
     <table class="table">
         <thead>
@@ -27,8 +63,8 @@
                 <td>{{ commande.datecommande ? commande.datecommande|date('Y-m-d') : '' }}</td>
                 <td>{{ commande.prix_total }}</td>
                 <td>
-                    <a href="{{ path('commande_show', {'id': commande.id}) }}">show</a>
-                    <a href="{{ path('commande_edit', {'id': commande.id}) }}">edit</a>
+                    <a href="{{ path('commande_show', {'id': commande.id}) }}" class="btn btn-danger">show</a>
+                    <a href="{{ path('commande_edit', {'id': commande.id}) }}" class="btn btn-success">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -40,5 +76,9 @@
     </table>
 
     <a href="{{ path('commande_new') }}"class = "btn btn-success" >Create new</a>
+      <a href="{{ path('commande_pdf') }}" class="btn btn-info btn-icon-text" >pdf</a>
+    
+   
+    </center>
 {% endblock %}
 {% endblock %}

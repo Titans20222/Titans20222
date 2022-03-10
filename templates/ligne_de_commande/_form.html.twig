@@ -1,4 +1,28 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-<button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{{ form_start (form) }}
+
+
+<fieldset>
+        {{ form_widget(form.Numcommande,{'attr': {'class': 'form-control w-100 mt-2 mb-2','placeholder': 'Numero Commande'}})}}
+    </fieldset>
+
+<fieldset>
+    {{ form_widget(form.prix,{'attr': {'class': 'form-control w-100 mt-2 mb-2','placeholder': 'Prix'}})}}
+</fieldset>
+<fieldset>
+    {{ form_widget(form.qte,{'attr': {'class': 'form-control w-100 mt-2 mb-2','placeholder': 'quantité '}})}}
+</fieldset>
+<fieldset>
+    {{ form_widget(form.ligne,{'attr': {'class': 'form-control w-100 mt-2 mb-2','placeholder': 'ligne '}})}}
+</fieldset>
+<fieldset>
+    {{ form_widget(form.commande,{'attr': {'class': 'form-control w-100 mt-2 mb-2','placeholder': ' Type de commande '}})}}
+</fieldset>
+<fieldset>
+    {{ form_widget(form.produit,{'attr': {'class': 'form-control w-100 mt-2 mb-2','placeholder': ' produit  '}})}}
+</fieldset>
+
+<br><br>
+
+
+<button type="submit" class="btn btn-success">Create</button>
+{{ form_end (form) }}

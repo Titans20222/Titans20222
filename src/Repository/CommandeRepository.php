@@ -47,4 +47,24 @@ class CommandeRepository extends ServiceEntityRepository
         ;
     }
     */
+    function reche($data)
+    {
+        return $this->createQueryBuilder('commande')
+            ->Where('commande.adresselivraison Like :adresselivraison')
+            ->setParameter('adresselivraison', '%'.$data.'%')
+            ->getQuery()->getResult();
+    }
+    function tri_asc()
+    {
+        return $this->createQueryBuilder('commande')
+            ->orderBy('commande.datecommande ','ASC')
+            ->getQuery()->getResult();
+    }
+    function tri_desc()
+    {
+        return $this->createQueryBuilder('commande')
+            ->orderBy('commande.datecommande ','DESC')
+            ->getQuery()->getResult();
+    }
+
 }

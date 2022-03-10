@@ -1,9 +1,14 @@
 
 {% extends 'base.html.twig' %}
 {% block content  %}
-    {% block title %}Commande{% endblock %}
+   
 
     {% block body %}
+<br>
+<br>
+<br>
+<br>
+    <center>
         <h1>Commande</h1>
 
         <table class="table">
@@ -26,12 +31,26 @@
             </tr>
             </tbody>
         </table>
-
-        <a href="{{ path('commande_index') }}">back to list</a>
-
-        <a href="{{ path('commande_edit', {'id': commande.id}) }}">edit</a>
-
+    </center>
+        <table>
+<tbody>
+<tr>
+        <a href="{{ path('commande_edit', {'id': commande.id}) }}" class="btn btn-success">edit</a>
+</tr>
+&emsp;
+<tr>
         {{ include('commande/_delete_form.html.twig') }}
+</tr>
+&emsp;
+<tr>
+ <a href="{{ path('Envoyer_Mail') }}" class="btn btn-info btn-icon-text" >Reclamer</a>
+ </tr>
+        </tbody>
+        </table>
+        
+        <center>
+        <a href="{{ path('commande_index') }}">back to list</a>
+        </center>
     {% endblock %}
 {% endblock %}
 

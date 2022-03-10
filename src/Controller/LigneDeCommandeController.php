@@ -10,6 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Commande;
+use App\Repository\CommandeRepository;
+use App\Entity\LignecmdSearch;
+use App\Form\LigneSearchType;
+
+
+
 
 
 
@@ -95,6 +101,44 @@ class LigneDeCommandeController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('ligne_de_commande_index');
+        return $this->redirectToRoute('lignedecommande_index');
+    }
+    
+   /**
+     * @Route("/ajax_search/comm", name="ajax_commande" ,methods={"GET"})
+     * @param Request $request
+     * @param LigneDeCommandetRepository $lignedecommandeRepository
+     * @return Response
+     */
+    public function searchAction(Request $request,LigneDeCommandeRepository $lignedecommandeRepository) : Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $requestString = $request->get('q');
+        $lignedecommandes =$lignedecommandeRepository->SearchNom($requestString);
+        if(!$lignedecommandes) {
+            $result['lignedecommandes']['error'] = "lignedecommande non trouvée ";
+        } else {
+            $result['lignedecommandes'] = $this->getRealEntities($lignedecommandes);
+        }
+        return new Response(json_encode($result));
+    }
+    public function getRealEntities($lignedecommandes){
+        foreach ($lignedecommandes as $lignedecommande){
+            $realEntities[$lignedecommande->getId()] = [$lignedecommande->getLigne(),$lignedecommande->getNumcommande()];
+
+        }
+        return $realEntities;
+    }
+     /**
+     * @route("/stat/com",name="stat_commande")
+     */
+    public function statisti( LigneDeCommandeRepository $repository, CommandeRepository $commandeRepository)
+    {
+
+        $opp=$repository->findAll();
+
+
+        return $this->render("ligne_de_commande/statistique.html.twig",['Pub'=>$opp]);
+
     }
 }

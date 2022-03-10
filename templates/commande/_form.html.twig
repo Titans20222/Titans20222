@@ -1,5 +1,22 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start (form) }}
 
-{{ form_end(form) }}
+
+<fieldset>
+        {{ form_widget(form.Numc,{'attr': {'class': 'form-control w-100 mt-2 mb-2','placeholder': 'Numero Commande'}})}}
+    </fieldset>
+
+<fieldset>
+    {{ form_widget(form.adresselivraison,{'attr': {'class': 'form-control w-100 mt-2 mb-2','placeholder': 'Adresse de livraison'}})}}
+</fieldset>
+<fieldset>
+    {{ form_widget(form.ville,{'attr': {'class': 'form-control w-100 mt-2 mb-2','placeholder': 'Ville '}})}}
+</fieldset>
+
+<fieldset>
+    {{ form_row (form.datecommande, {'attr':{'placeholder':''}}) }}
+</fieldset>
+<br><br>
+
+
+<button type="submit" class="btn btn-success">Create</button>
+{{ form_end (form) }}

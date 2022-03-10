@@ -116,7 +116,7 @@ class LigneDeCommande
         return $this->ligne;
     }
 
-    public function setLig(string $ligne): self
+    public function setLigne(string $ligne): self
     {
         $this->ligne = $ligne;
 

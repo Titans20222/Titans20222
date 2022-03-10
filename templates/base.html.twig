@@ -6,7 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
+<meta charset="UTF-8">
+         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
+         <meta name="viewport"
+               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+         <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
@@ -47,6 +52,8 @@
 	          <li class="nav-item"><a href="{{path('evenement_index')}}" class="nav-link">Évènements</a></li>
 	          <li class="nav-item"><a href="{{path('contact')}}" class="nav-link">Contact</a></li>
 				<li class="nav-item"><a href="{{path('commande_index')}}" class="nav-link">Commandes</a></li>
+				<li class="nav-item"><a href="{{path('lignedecommande_index')}}" class="nav-link">Commande En Ligne</a></li>
+				<li class="nav-item"><a href="{{path('stat_commande')}}" class="nav-link">STAT</a></li> 
 
 				<!-- <li class="nav-item">
 				<a href="" class="nav-link">Compte</a></li> -->
@@ -65,9 +72,10 @@
 	      </div>
 		  </div>
 	  </nav>
-
+	  
     <!-- END nav -->
 {% block content %}
+
     <section class="home-slider owl-carousel">
       <div class="slider-item" style="background-image: url(images/bg_1.jpg);">
       	<div class="overlay"></div>

@@ -47,4 +47,41 @@ class LigneDeCommandeRepository extends ServiceEntityRepository
         ;
     }
     */
+    function SearchByEmp($nsc)
+
+    {
+        return $this->createQueryBuilder('o')
+            ->where ('o.lignedecommande = :lignedecommande')
+            ->setParameter('lignedecommande',$nsc)
+            ->getQuery()->getResult();
+        ;
+
+    }
+    function SearchNom($nsc)
+
+    {
+        return $this->createQueryBuilder('o')
+            ->where ('o.ligne LIKE :ligne')
+            ->setParameter('ligne','%'.$nsc.'%')
+            ->getQuery()->getResult();
+        ;
+
+    }
+
+    public function findEntitiesByString($str)
+    {
+
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p
+            FROM App\Entity\LigneDeCommande p
+            WHERE p.ligne LIKE :str'
+
+        )->setParameter('str', $str);
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
+
 }

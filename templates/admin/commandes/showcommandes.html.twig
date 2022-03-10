@@ -10,10 +10,12 @@
             <h1>Commande</h1>
 
             <table class="table">
+            
                 <tbody>
+                 {% for commande in commandes %}
                 <tr>
                     <th>Adresselivraison  </th>
-                    <td>{{ commande.adresselivraison  }}</td>
+                    <td>{{ commande.adresselivraison }}</td>
                 </tr>
                 <tr>
                     <th>Ville</th>
@@ -27,6 +29,8 @@
                     <th>Prix total</th>
                     <td>{{ commande.prix_total }}</td>
                 </tr>
+
+                   {% endfor %}
                 </tbody>
             </table>
 
