@@ -25,7 +25,7 @@ class CategoryController extends AbstractController
             'categories' => $categoryRepository->findAll(),
         ]);
     }
-    
+
 
     /**
      * @Route("/new", name="category_new", methods={"GET", "POST"})
@@ -91,6 +91,4 @@ class CategoryController extends AbstractController
 
         return $this->redirectToRoute('category_index', [], Response::HTTP_SEE_OTHER);
     }
-   
-
 }

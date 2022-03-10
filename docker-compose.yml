@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-###> doctrine/doctrine-bundle ###
+###> doctrine/doctrine-bundles ###
   database:
     image: postgres:${POSTGRES_VERSION:-13}-alpine
     environment:
@@ -13,9 +13,9 @@ services:
       - db-data:/var/lib/postgresql/data:rw
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+###< doctrine/doctrine-bundles ###
 
 volumes:
-###> doctrine/doctrine-bundle ###
+###> doctrine/doctrine-bundles ###
   db-data:
-###< doctrine/doctrine-bundle ###
+###< doctrine/doctrine-bundles ###

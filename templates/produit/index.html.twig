@@ -3,12 +3,45 @@
 {% block title %}Produit index{% endblock %}
 {% block content %}
 {% block body %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
     <h1>Produit </h1>
+   
+    
+
+</div>
 
     <table class="table">
         <thead>
             <tr>
-               
+         {#   <a href="{{ path('tri') }}">tri by name</a>
+           <br>
+           <a href="{{ path('triP') }}">tri by price</a>
+           <br>#}
+           <div class="dropdown">
+  
+  <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Tri
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="{{ path('tri') }}">By name</a>
+    <a class="dropdown-item" href="{{ path('triP') }}">By price</a>
+  
+  </div>
+</div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</div>
+            <input id="myInput" type="text" placeholder="Rechercher..">
+            <br>
                   <th>category</th>
                 <th>Name</th>
                 <th>Price</th>
@@ -22,6 +55,7 @@
         </thead>
         <tbody>
         {% for produit in produits %}
+        <tbody id="myTable">
             <tr>
                
                 <td>{{ produit.category.label}}</td>
@@ -36,9 +70,12 @@
                     <a href="{{ path('produit_show', {'id': produit.id}) }}">show</a>
                     <a href="{{ path('produit_edit', {'id': produit.id}) }}"> edit </a>
                      <a href="{{ path('produit_delete', {'id': produit.id}) }}">delete</a>
-                     <a href="{{ path('produit_show_qr', {'id': produit.id}) }}">QR Code</a>
+                     {# <a href="{{ path('produit_show_qr', {'id': produit.id}) }}">QR Code</a> #}
+                   
+
                 </td>
             </tr>
+            </tbody>
         {% else %}
             <tr>
                 <td colspan="5">no records found</td>
@@ -48,5 +85,15 @@
     </table>
 
     <a href="{{ path('produit_new') }}">Create new</a>
+    <br>
+    <br>
+    <a href="{{ path('produit_listp') }}">Imprimer la page</a>
 {% endblock %}
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-template d-flex justify-content-center">
+
+    {{ knp_pagination_render(produits) }}
+
+    </ul>
+</nav>
 {% endblock %}

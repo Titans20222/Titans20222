@@ -2,24 +2,26 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
+use App\Entity\Produit;
+use App\Services\QrCodeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 
-use App\Entity\Produit;
-use App\Entity\Category;
-use  App\Controller\CategoryController;
-use App\Repository\ProduitRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\CategoryRepository;
-
-
+/**
+ * @Route("boutique/")
+ */
 class BoutiqueController extends AbstractController
 {
     /**
+<<<<<<< HEAD
+     * @Route("/show", name="alpha")
+=======
      * @Route("/boutique", name="alpha")
+>>>>>>> origin/BrahimeElhamed
      */
+
     public function index(): Response
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
@@ -27,10 +29,10 @@ class BoutiqueController extends AbstractController
         return $this->render('boutique/index.html.twig', [
             'produits' => $produits,
             'categories' => $categories
-         ] );
+        ] );
 
-        
- 
+
+
     }
 
     /**
@@ -42,4 +44,26 @@ class BoutiqueController extends AbstractController
             'produit' => $produit,
         ]);
     }
+    /**
+     * @Route("/qr/{id}", name="produit_show_qr", methods={"GET"}, requirements={"id":"\d+"})
+     */
+    public function show_with_qr(Produit $produit, QrCodeService $qrcodeService): Response
+    {
+
+        $url = 'id: '.$produit->getId().' | ';
+        $url = $url.'name: '.$produit->getName().' | ';
+        $url = $url.'category: '.$produit->getDescription().' | ';
+        $url = $url.'price: '.$produit->getPrice();
+
+        $qrCode = $qrcodeService->qrcodeByProduit($url);
+        $fileName = $qrCode[1];
+        return $this->render('produit/show_with_qr.html.twig', [
+            'produit' => $produit,
+            'qrCode' => $qrCode[0],
+            'fileName' => $fileName,
+        ]);
+
+
+    }
+
 }

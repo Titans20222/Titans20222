@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+
+{% block body %}
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <center><h4>Create new Reclamation</h4></center>
+    <br>
+    <br>
+
+   <center> {{ include('reclamation/_form.html.twig') }}</center>
+    <br>
+    <br>
+    <center> <a href="{{ path('reclamation_index') }}"class="btn btn-primary p-3 px-xl-4 py-xl-3">back to list</a> </center>
+{% endblock %}
+{% endblock %}

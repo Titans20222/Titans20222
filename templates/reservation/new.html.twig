@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block content  %}
+
+{% block title %} Reservation{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+    <h1> Reservation</h1>
+
+    {{ include('reservation/_form.html.twig') }}
+
+    <a href="{{ path('reservation_index') }}"> liste</a>
+{% endblock %}
+{% endblock %}

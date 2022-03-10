@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{% block content%}
+
+{% block title %}Reservation index{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+    <h1>Reservation index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nbrplace</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.id }}</td>
+                <td>{{ reservation.nbrplace }}</td>
+                <td>
+                    <a href="{{ path('reservation_show', {'id': reservation.id}) }}">show</a>
+                
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+          <td><a href="{{ path('reservation_new') }}">Create new</a> </td>
+          <td></td>
+          <td>{{ knp_pagination_render(reservations) }}</td>
+
+        </tbody>
+    </table>
+
+  
+{% endblock %}
+{% endblock %}

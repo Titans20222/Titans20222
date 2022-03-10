@@ -1,0 +1,45 @@
+{% extends 'adminT.html.twig' %}
+
+{% block content %}
+
+
+{% block body %}
+    <br>
+    <br> <br>
+    <br>
+    <center><h1>Les Reclamations</h1></center>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <!--  <th>Id</th>   -->
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for reclamation in reponse_reclamations %}
+            <tr>
+                <!-- <td>{{ reclamation.id }}</td>  -->
+                <td>{{ reclamation.titre }}</td>
+                <td>{{ reclamation.description }}</td>
+                 <td>{{ reclamation.type }}</td>
+                <td>
+                  <center>  <a href="{{ path('reponse_reclamation_new', {'id': reclamation.id}) }}" class="btn bg-gradient-primary mt-4 w-100">reponse</a> </center>
+                    {{ include('reclamation/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+{% endblock %}
+

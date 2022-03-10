@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
@@ -28,13 +29,14 @@ class Produit
      * min = 5,
      * max = 50,
      * minMessage = "le nom de l'article doit avoir au moins {{ limit }} caractères",
-     * minMessage = "le nom de l'article doit avoir au maximum {{ limit }} caractères" 
+     * minMessage = "le nom de l'article doit avoir au maximum {{ limit }} caractères"
      *  )
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+    //  * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer")
      * @Assert\NotEqualTo(
      * value=0,
      * message = "le prix de l'article ne doit pas être égale à 0"
@@ -68,6 +70,10 @@ class Produit
     private $imageFile;
 
     /**
+     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="produits",orphanRemoval=true)
+     */
+    private $commentaire;
+    /**
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
      */
@@ -78,6 +84,7 @@ class Produit
      * @Gedmo\Timestampable(on="update")
      */
     private $updatedAt;
+
 
 
     public function getId(): ?int
@@ -97,12 +104,12 @@ class Produit
         return $this;
     }
 
-    public function getPrice(): ?string
+    public function getPrice(): ?int
     {
         return $this->price;
     }
 
-    public function setPrice(string $price): self
+    public function setPrice(int $price): self
     {
         $this->price = $price;
 
@@ -165,6 +172,35 @@ class Produit
         return $this->file;
     }
 
+    /**
+     * @return Collection|Commentaire[]
+     */
+    public function getCommentaire(): Collection
+    {
+        return $this->commentaire;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): self
+    {
+        if (!$this->commentaire->contains($commentaire)) {
+            $this->commentaire[] = $commentaire;
+            $commentaire->setProduits($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): self
+    {
+        if ($this->avis->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getProduits() === $this) {
+                $commentaire->setProduits(null);
+            }
+        }
+
+        return $this;
+    }
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -176,7 +212,5 @@ class Produit
     {
         return $this->updatedAt;
     }
-
-
 
 }

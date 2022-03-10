@@ -26,7 +26,7 @@
             <br>
             <br>
             <br>
-            <h2>Produit {{ produit.id }}</h2>
+            {# <h2>Produit {{ produit.id }}</h2> #}
 
             <table class="tb">
                 <tbody>
@@ -34,31 +34,35 @@
                     <td class="titleTable"></td>
                     <td><img class="img-responsive" src="{{ asset('uploads/peintures/') ~ produit.file}}" width="200" height="200"></td>
                     <br>
+                    
                     <br>
                     <br>
+                    <td> <a href="{{ path('produit_show_qr', {'id': produit.id}) }}">Scannez votre Produit</a></td>
                 </tr>
-                <tr>
+                {# <tr>
                     <td class="titleTable">Nom</td>
                     <td class="rowtable">{{ produit.name }}</td>
                     <br>
                     <br>
-                </tr>
+                </tr> #}
 
-                <tr>
+                {# <tr>
                     <td class="titleTable">Description</td>
                     <td class="rowtable">{{ produit.description }}</td>
                     <br>
                     <br>
-                </tr>
-
+                </tr> #}
+{# 
                 <tr>
                     <td class="titleTable">Prix</td>
                     <td class="rowtable">{{ produit.price }}</td>
                     <br>
                     <br>
-                </tr>
+                </tr> #}
+              
 
 
+														 
                 </tbody>
 
             </table>

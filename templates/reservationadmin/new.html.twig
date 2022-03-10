@@ -1,0 +1,17 @@
+{% extends 'adminT.html.twig' %}
+{% block content  %}
+
+{% block title %}New Reservation{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+    <h1>Create new Reservation</h1>
+
+    {{ include('reservationadmin/_form.html.twig') }}
+
+    <a href="{{ path('reservation_indexadmin') }}">back to list</a>
+{% endblock %}
+{% endblock %}

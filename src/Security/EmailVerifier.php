@@ -52,5 +52,6 @@ class EmailVerifier
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+        $this->addFlash('success',' compte creer avec succes');
     }
 }

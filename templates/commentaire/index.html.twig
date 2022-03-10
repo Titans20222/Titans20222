@@ -1,0 +1,42 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+{% block body %}
+    <div class="container" style="margin-top: 50px">
+    <h1>Commentaire index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>nom de l'utilisateur</th>
+                <th>email de l'utilisateur</th>
+                <th>description</th>
+
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for commentaire in commentaires %}
+            <tr>
+                <td>{{ commentaire.nom }}</td>
+                <td>{{ commentaire.email }}</td>
+
+                <td>{{ commentaire.description}}</td>
+                <td>
+                    <a href="{{ path('commentaire_show', {'id': commentaire.id}) }}">show</a>
+                    <a href="{{ path('commentaire_edit', {'id': commentaire.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    <a href="{{ path('commentaire_new') }}">Create new</a>
+{% endblock %}
+{% endblock %}

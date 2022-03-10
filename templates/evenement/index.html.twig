@@ -2,40 +2,77 @@
 
 
 
-{% block content  %}
-{% block title %}Evenement index{% endblock %}
+{% block content%}
+
+{% block title %}{% endblock %}
 
 {% block body %}
-    <h1>Evenement index</h1>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <h1>Evenements</h1>
 
+ 
+
+  
     <table class="table">
+       <input id="myInput" type="textarea" placeholder="Rechercher..">
+          
         <thead>
             <tr>
-                <th>Id</th>
+               
                 <th>NomEvenement</th>
                 <th>Date</th>
-                <th>actions</th>
+                <th>Places disponible</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         {% for evenement in evenements %}
+        <tbody id="myTable">
             <tr>
-                <td>{{ evenement.id }}</td>
+                
                 <td>{{ evenement.nomEvenement }}</td>
                 <td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
+                 <td>{{ evenement.nbrplacedispo}}</td>
                 <td>
-                    <a href="{{ path('evenement_show', {'id': evenement.id}) }}">show</a>
-                    <a href="{{ path('evenement_edit', {'id': evenement.id}) }}">edit</a>
+
+                    <a href="{{ path('evenement_show', {'id': evenement.id}) }}">consulter</a>
+             
                 </td>
             </tr>
+          
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">Liste vide</td>
             </tr>
+        
         {% endfor %}
+         <tr>
+           
+            <td><a href="{{ path('reservation_new') }}">reserver</a></td>
+           </td>
+          
+            
+            </tr>
         </tbody>
+         
+
     </table>
 
-    <a href="{{ path('evenement_new') }}">Create new</a>
+  
+ 
 {% endblock %}
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-template d-flex justify-content-center">
+
+   
+
+    </ul>
+</nav>
+
+
 {% endblock %}
+
